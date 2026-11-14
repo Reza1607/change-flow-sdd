@@ -8,7 +8,9 @@
 
 ## Stack برنامه‌ریزی‌شده
 
-Java 21، Spring Boot 4.0.9 و Maven؛ Modular Monolith با Package-by-Feature. طبق Plan و ADRها: PostgreSQL 17.12، Flyway، Spring Data JPA، HTTP Basic روی HTTPS با CSRF protection و تست‌های PostgreSQL واقعی با Testcontainers. جزئیات فنی در Plan و ADRها نگه‌داری می‌شوند.
+Java 21، Spring Boot 4.0.9 و Maven؛ Modular Monolith با Package-by-Feature. طبق Plan و ADRها: PostgreSQL 17.12، Flyway، Spring Data JPA، HTTP Basic روی HTTPS با CSRF protection و تست‌های PostgreSQL واقعی با Testcontainers. جزئیات فنی در Plan و ADRها نگه‌داری می‌شوند. نسخه‌های دقیق با [Plan](specs/001-change-request-management/plan.md)، [ADR-001](docs/decisions/001-runtime-and-storage.md) و مستندات رسمی [Spring Boot 4.0.9](https://docs.spring.io/spring-boot/4.0/system-requirements.html) و [PostgreSQL 17.12](https://www.postgresql.org/docs/release/17.12/) تطبیق داده شده‌اند.
+
+فعال‌بودن CSRF در [ADR-002](docs/decisions/002-identity-and-live-authorization.md) و Plan صریح است؛ دلیل ثبت‌شده در [Research، بخش هویت و نقش جاری](specs/001-change-request-management/research.md#۳-هویت-و-نقش-جاری)، نیاز کلاینت مرورگریِ HTTP Basic به حفاظت CSRF است. ADR-002 این دلیل را جداگانه توضیح نداده است.
 
 ## ساختار مخزن
 
@@ -24,7 +26,7 @@ docs/
 └── decisions/
 specs/
 └── 001-change-request-management/
-    ├── checklists/
+    ├── checklists/requirements.md
     └── contracts/
 ```
 
@@ -40,7 +42,7 @@ specs/
 ./mvnw verify
 ```
 
-**پس از Implement**، اجرای محلی dev طبق Quickstart:
+**پس از Implement**، اجرای محلی dev طبق Quickstart؛ سازگاری این هدف با Spring Boot 4 در Foundation تأیید می‌شود:
 
 ```bash
 read -rsp 'Local development password: ' CHANGEFLOW_DEV_PASSWORD

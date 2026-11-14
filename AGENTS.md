@@ -22,6 +22,7 @@ Agent MUST به‌ترتیب بخواند؛ Constitution مرجع الزام‌�
 ## قواعد کار
 
 - Agent MUST NOT بدون Task در tasks.md کد بنویسد؛ Spec، Plan و Tasks MUST پیش از کدنویسی تأیید شده باشند.
+- پیش از شروع هر فاز، Task ناتمام بعدی را از tasks.md بخوان و فقط همان فاز را انجام بده؛ از checkpoint فراتر نرو.
 - هر Task واقعاً تمام‌شده MUST با `[X]` در tasks.md علامت بخورد؛ کار ناقص یا تست‌نشده MUST NOT Done شود.
 - Agent MUST NOT تصمیم محصولی بی‌صدا بگیرد؛ ابهام MUST پرسیده یا با شناسه، دلیل و وضعیت «قابل بازبینی» در docs/assumptions.md ثبت شود.
 - تغییر رفتار MUST ابتدا در Spec و سپس در کد اعمال شود؛ Task MUST به FR یا Acceptance Criterion قابل‌ردیابی باشد.
@@ -57,7 +58,7 @@ Agent MUST به‌ترتیب بخواند؛ Constitution مرجع الزام‌�
 - `web`: Composition Root، Problem Details، Security wiring و CSRF endpoint.
 - وابستگی MUST به داخل باشد؛ domain MUST مستقل از Spring/JPA باشد؛ تزریق MUST با Constructor Injection انجام شود.
 - featureها MUST NOT به `com.changeflow.web` وابسته باشند؛ root وب برای wiring و نگاشت خطا به لایه‌های داخلی وابسته می‌شود.
-- نوع‌های حداقلی Foundation در T014/T015 و قواعد Test-First در T020 تکمیل می‌شوند؛ checkpointها MUST طبق جدول Tasks رعایت شوند.
+- ترتیب کار MUST طبق جدول وابستگی و checkpointها در [tasks.md](specs/001-change-request-management/tasks.md) باشد.
 
 ## Definition of Done و گزارش
 
