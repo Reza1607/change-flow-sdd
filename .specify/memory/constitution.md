@@ -1,50 +1,109 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+گزارش Sync Impact
+نسخه: قالب بدون نسخه → 1.0.0 (تصویب اولیه)
+اصول: جایگزینی پنج اصل نمونه با نه اصل پروژه؛ عنوان پیشینِ مصوبی وجود نداشت.
+بخش‌های افزوده: قیدهای فنی، اصول دامنه و فرایند، Governance.
+بخش‌های حذف‌شده: بخش‌ها و راهنمای نمونهٔ قالب.
+پیگیری معوق: ندارد. قالب‌های وابسته در زمان اجرا سند را می‌خوانند و تغییر نکرده‌اند.
+این گزارش موقت MUST پیش از Commit سند حذف شود.
+-->
+# Constitution سامانه مدیریت درخواست‌های تغییر (Change Request Management)
 
-## Core Principles
+**نسخه**: 1.0.0 | **تاریخ تصویب**: 2026-11-14 | **آخرین اصلاح**: 2026-11-14
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+## قیدهای فنی
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+- پروژه MUST از Java 21 و Spring Boot 4 استفاده کند؛ تغییر نسخهٔ major هرکدام MUST از مسیر Amendment انجام شود.
+- Build Tool MUST Maven باشد تا Quickstart و CI دستورهای یکسان داشته باشند.
+- ذخیره‌سازی MUST پایگاه‌دادهٔ رابطه‌ای با Migration نسخه‌دار باشد؛ محصول و ابزار Migration MUST در Plan و ADR تعیین شوند.
+- کتابخانه‌ها، مکانیزم احراز هویت و ساختار دقیق Package MUST در Plan تعیین شوند؛ Constitution MUST NOT این انتخاب‌های جزئی را قفل کند.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+## اصول
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### ۱. Spec-Driven Development
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+- Spec MUST منبع حقیقت رفتار باشد؛ کد MUST NOT پیش از تأیید Spec، Plan و Tasks نوشته شود.
+- رفتار نامشخص MUST در Clarify تعیین تکلیف شود یا در `docs/assumptions.md` با شناسه، دلیل و وضعیت «قابل بازبینی» ثبت شود؛ Agent MUST NOT بی‌صدا تصمیم بگیرد.
+- هر Task MUST به یک Requirement یا Acceptance Criterion قابل‌ردیابی باشد؛ تغییر رفتار MUST ابتدا در Spec و سپس در کد اعمال شود.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+**Rationale:** ردیابی تصمیم تا رفتار قابل‌آزمون، انحراف پیاده‌سازی از نیاز را آشکار می‌کند.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### ۲. قواعد غیرقابل‌مذاکرهٔ دامنه (Domain Invariants)
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+- ماشین وضعیت MUST فقط گذارهای `Draft → PendingReview`، `PendingReview → Approved`، `PendingReview → ChangesRequested` و `ChangesRequested → PendingReview` با Submit را بپذیرد؛ هر گذار دیگر MUST رد شود.
+- Self-Approval MUST NOT مجاز باشد؛ هویت تأییدکننده MUST با هویت ثبت‌کننده مقایسه شود، حتی برای کاربر دارای هر دو نقش Requester و Reviewer.
+- درخواست Approved MUST تغییرناپذیر باشد؛ ویرایش MUST فقط در Draft و ChangesRequested و فقط توسط ثبت‌کنندهٔ همان درخواست مجاز باشد.
+- هر عملیات تغییر وضعیت MUST هویت، مجوز فعلی در لحظهٔ اجرا و وضعیت فعلی درخواست را بررسی کند؛ مجوز کش‌شده MUST NOT مبنای تصمیم باشد.
+- قواعد دامنه MUST در لایهٔ domain/application service اعمال شوند؛ Controller و UI MUST NOT محل پیاده‌سازی این قواعد باشند.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+**Rationale:** اجرای متمرکز قواعد، دورزدن گردش کار از مسیرهای مختلف ورود را مسدود می‌کند.
+
+### ۳. همزمانی و یکپارچگی داده
+
+- همهٔ تغییرات MUST تحت Optimistic Concurrency باشند؛ بازنویسی بی‌صدای دادهٔ جدیدتر MUST NOT رخ دهد و تعارض MUST پاسخ HTTP 409 بدهد.
+- هر گذار وضعیت MUST همراه با ثبت Audit Trail در یک تراکنش اتمیک انجام شود؛ شکست هر بخش MUST کل عملیات را بازگرداند.
+- هر رکورد Audit MUST شامل هویت عامل، زمان، وضعیت مبدأ، وضعیت مقصد و توضیح باشد.
+- تغییر ساختار پایگاه‌داده MUST فقط با Migration نسخه‌دار انجام شود.
+
+**Rationale:** تراکنش و کنترل نسخه از گم‌شدن تغییرات و تاریخچهٔ ناقص جلوگیری می‌کنند.
+
+### ۴. هویت و امنیت
+
+- هویت عامل MUST از Security Context گرفته شود و MUST NOT از Body یا Query Parameter پذیرفته شود.
+- احراز هویت MUST پشت یک Abstraction قابل‌جایگزینی باشد؛ Plan MUST ساده‌ترین مکانیزم امن و قابل‌تست نسخهٔ اول را انتخاب کند.
+- مجوزها MUST سمت سرور اعمال شوند؛ لغو مجوز MUST در عملیات بعدی اثر کند.
+- دادهٔ حساس و Secret MUST NOT در لاگ، مخزن کد یا پاسخ API قرار گیرند.
+
+**Rationale:** اعتماد به هویت و مجوز سمت سرور، جعل عامل و ادامهٔ دسترسی لغوشده را مهار می‌کند.
+
+### ۵. معماری
+
+- معماری MUST Modular Monolith و Package-by-Feature با لایه‌های api / application / domain / infrastructure باشد؛ وابستگی‌ها MUST فقط به سمت داخل باشند و domain MUST مستقل از لایه‌های بیرونی بماند.
+- Entity پایگاه‌داده MUST NOT مستقیم در API منتشر شود؛ قرارداد API MUST از DTO جدا استفاده کند.
+- تزریق وابستگی MUST با Constructor Injection باشد؛ کد SHOULD از Immutability و Java Records برای DTO استفاده کند تا تغییرپذیری و کد تکراری کاهش یابد.
+- Abstraction صرفاً برای نیاز احتمالی دوردست MUST NOT ساخته شود؛ نقاط توسعه MUST به نیاز مشخص آیندهٔ نزدیک، مانند احراز هویت و Audit، محدود شوند.
+- پیاده‌سازی MUST فقط از API استاندارد و مستند Java 21 / Spring Boot 4 استفاده کند؛ در تردید دربارهٔ API نسخهٔ ۴، مستندات رسمی MUST بررسی شوند و API MUST NOT حدس زده شود.
+
+**Rationale:** مرزهای روشن با حداقل پیچیدگی، توسعهٔ تدریجی را بدون اتصال پنهان ممکن می‌کنند.
+
+### ۶. کیفیت API
+
+- API MUST از REST با مسیر نسخه‌دار `/api/v1`، Validation ورودی و Pagination برای فهرست‌ها استفاده کند.
+- خطاها MUST قالب یکسان RFC 9457 Problem Details داشته باشند؛ نگاشت MUST شامل 400 برای ورودی نامعتبر، 401 برای هویت احرازنشده، 403 برای منع مجوز، 404 برای منبع یافت‌نشده، 409 برای تعارض وضعیت/همزمانی و 422 برای نقض معنایی قواعد درخواست معتبر باشد.
+- Spec MUST رفتار درخواست تکراری و Idempotency عملیات تغییر وضعیت را تعریف کند و تست‌ها MUST آن را اثبات کنند.
+- Spec MUST سیاست دیده‌شدن درخواست‌ها، شامل اینکه هر هویت چه درخواست‌هایی را می‌بیند، صریح تعریف کند.
+
+**Rationale:** قرارداد صریح پاسخ و دسترسی، رفتار کلاینت و آزمون پذیرش را قابل‌پیش‌بینی می‌کند.
+
+### ۷. تست
+
+- قواعد دامنه MUST با Test-First توسعه یابند: تست مرتبط MUST پیش از پیاده‌سازی نوشته و شکست آن مشاهده شود.
+- Unit Testها MUST هر گذار مجاز و هر گذار غیرمجاز میان وضعیت‌های ماشین را پوشش دهند.
+- تست‌ها MUST صریحاً Self-Approval از جمله کاربر دو‌نقشه، ویرایش Approved، دسترسی غیرمجاز و تعارض دو Reviewer هم‌زمان را پوشش دهند.
+- لایه‌های API و Persistence MUST Integration Test با پایگاه‌دادهٔ واقعی داشته باشند؛ Mock پایگاه‌داده MUST NOT جایگزین آن شود.
+- هیچ Task MUST بدون تست مرتبط Done اعلام شود؛ برای Task صرفاً مستنداتی، بررسی قابل‌تکرار سازگاری و کامل‌بودن سند MUST ثبت شود.
+
+**Rationale:** تست مسیرهای منع و رقابت، نقض قواعدی را می‌گیرد که تست مسیر موفق آشکار نمی‌کند.
+
+### ۸. کیفیت کد و مستندسازی
+
+- Build و اجرای تست‌ها MUST با یک دستور مستند Maven انجام شوند؛ README MUST شامل Quickstart قابل‌اجرا باشد.
+- لاگ‌ها MUST ساخت‌یافته باشند؛ Controller MUST NOT شامل Business Logic باشد.
+- تصمیم‌های معماری مهم MUST با ADR کوتاه شامل تصمیم و دلیل در `docs/decisions/` ثبت شوند.
+
+**Rationale:** اجرای تکرارپذیر و ثبت دلیل تصمیم‌ها، بازبینی و نگهداری را قابل‌سنجش می‌کنند.
+
+### ۹. کنترل Scope و تکمیل کار
+
+- Scope فعلی MUST ثبت و بررسی درخواست‌های تغییر قابلیت، فرایند و API در شرکت نرم‌افزاری با نقش‌های Requester و Reviewer باشد.
+- AI، RAG، MCP، Multi-Agent، Microservices، Message Broker و Event Sourcing و هر کار خارج از Scope MUST رد یا در Backlog ثبت شوند و MUST NOT در Scope فعلی پیاده‌سازی شوند.
+- Definition of Done MUST شامل برآورده‌شدن Spec، سبزبودن تست‌های مرتبط، به‌روزبودن Assumptions و مستندات باشد.
+
+**Rationale:** مرز و معیار تکمیل صریح، گسترش بی‌ضابطهٔ پروژه در جلسات بعد را کنترل می‌کند.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
-
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+- Spec، Plan، Tasks و هر بازبینی تغییر MUST از نظر انطباق با Constitution بررسی شوند؛ تعارض MUST پیش از پیاده‌سازی با اصلاح سند پایین‌دست یا Amendment حل شود.
+- اصلاح Constitution MUST با Amendment تأییدشده توسط مسئول پروژه، ثبت دلیل و تاریخ و افزایش نسخه طبق Semantic Versioning انجام شود؛ تغییر major پلتفرم نیز MUST همین مسیر را طی کند.
+- نسخه MUST برای حذف یا بازتعریف ناسازگار قواعد MAJOR، افزودن اصل یا الزام سازگار MINOR و اصلاح نگارشی یا روشن‌سازی بدون تغییر الزام PATCH افزایش یابد.
+- هر Amendment MUST اثر بر Spec، Plan، Tasks و ADRهای موجود و اقدام لازم برای همسوسازی آن‌ها را ثبت کند.
