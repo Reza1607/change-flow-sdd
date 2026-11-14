@@ -1,0 +1,660 @@
+openapi: 3.1.0
+info:
+  title: Change Request Management API
+  version: 1.0.0
+  description: 'Design contract; see semantics.md for authorization, transition ordering, atomicity and error precedence.
+    All sensitive responses are Cache-Control: no-store. Authentication is HTTP Basic over TLS. API authentication
+    is stateless; CSRF cookie is not an authentication cookie.'
+servers:
+- url: /api/v1
+security:
+- basicAuth: []
+paths:
+  /csrf:
+    get:
+      operationId: getCsrf
+      summary: Get CSRF token and matching cookie; does not create an authentication session.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Csrf'
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+              description: XSRF-TOKEN cookie; required alongside the returned header token for mutations.
+            Cache-Control:
+              schema:
+                type: string
+                const: no-store
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+  /change-requests:
+    get:
+      operationId: listRequests
+      summary: List visible requests ordered by id ascending.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestPage'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+      parameters:
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/Size'
+      - name: status
+        in: query
+        schema: &id004
+          type: string
+          enum:
+          - Draft
+          - PendingReview
+          - Approved
+          - ChangesRequested
+        description: Optional narrowing filter; never expands visibility.
+    post:
+      operationId: createDraft
+      summary: Create an incomplete Draft owned by the authenticated actor.
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeRequest'
+          headers:
+            Location:
+              schema:
+                type: string
+              description: /api/v1/change-requests/{id}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DraftInput'
+      parameters:
+      - $ref: '#/components/parameters/CsrfToken'
+  /change-requests/{id}:
+    parameters:
+    - $ref: '#/components/parameters/RequestId'
+    get:
+      operationId: getRequest
+      summary: Read a visible request.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeRequest'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+    put:
+      operationId: editRequest
+      summary: Replace title, description and reason of own Draft or ChangesRequested.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeRequest'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditInput'
+      parameters:
+      - $ref: '#/components/parameters/CsrfToken'
+    delete:
+      operationId: deleteDraft
+      summary: Delete own Draft using expectedVersion.
+      responses:
+        '204':
+          description: Deleted
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+      parameters:
+      - $ref: '#/components/parameters/CsrfToken'
+      - $ref: '#/components/parameters/ExpectedVersion'
+  /change-requests/{id}/history:
+    parameters:
+    - $ref: '#/components/parameters/RequestId'
+    get:
+      operationId: listHistory
+      summary: List history using parent visibility, ordered by resultingVersion ascending.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryPage'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+      parameters:
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/Size'
+  /change-requests/{id}/submit:
+    parameters:
+    - $ref: '#/components/parameters/RequestId'
+    post:
+      operationId: submitRequest
+      summary: Submit own complete Draft or ChangesRequested.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeRequest'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransitionInput'
+      parameters:
+      - $ref: '#/components/parameters/CsrfToken'
+  /change-requests/{id}/approve:
+    parameters:
+    - $ref: '#/components/parameters/RequestId'
+    post:
+      operationId: approveRequest
+      summary: Approve PendingReview of another actor.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeRequest'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransitionInput'
+      parameters:
+      - $ref: '#/components/parameters/CsrfToken'
+  /change-requests/{id}/request-changes:
+    parameters:
+    - $ref: '#/components/parameters/RequestId'
+    post:
+      operationId: requestChanges
+      summary: Return PendingReview of another actor with mandatory explanation.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeRequest'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestChangesInput'
+      parameters:
+      - $ref: '#/components/parameters/CsrfToken'
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  parameters:
+    RequestId:
+      name: id
+      in: path
+      required: true
+      schema: &id003
+        type: string
+        format: uuid
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    Size:
+      name: size
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    ExpectedVersion:
+      name: expectedVersion
+      in: query
+      required: true
+      schema: &id002
+        type: integer
+        format: int64
+        minimum: 0
+    CsrfToken:
+      name: X-XSRF-TOKEN
+      in: header
+      required: true
+      schema:
+        type: string
+      description: Token from GET /csrf; send matching XSRF-TOKEN cookie.
+  schemas:
+    DraftInput:
+      type: object
+      additionalProperties: false
+      properties:
+        title: &id001
+          type:
+          - string
+          - 'null'
+        description: *id001
+        reason: *id001
+      required: []
+    EditInput:
+      type: object
+      additionalProperties: false
+      properties:
+        expectedVersion: *id002
+        title: *id001
+        description: *id001
+        reason: *id001
+      required:
+      - expectedVersion
+      - title
+      - description
+      - reason
+    TransitionInput:
+      type: object
+      additionalProperties: false
+      properties:
+        expectedVersion: *id002
+        explanation:
+          type: string
+      required:
+      - expectedVersion
+    RequestChangesInput:
+      type: object
+      additionalProperties: false
+      properties:
+        expectedVersion: *id002
+        explanation:
+          type: string
+          minLength: 1
+          description: Required; whitespace-only is rejected with 422.
+      required:
+      - expectedVersion
+      - explanation
+    ChangeRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        id: *id003
+        title: *id001
+        description: *id001
+        reason: *id001
+        requesterId: *id003
+        status: *id004
+        version: *id002
+      required:
+      - id
+      - title
+      - description
+      - reason
+      - requesterId
+      - status
+      - version
+    HistoryEntry:
+      type: object
+      additionalProperties: false
+      properties:
+        id: *id003
+        requestId: *id003
+        actorId: *id003
+        occurredAt:
+          type: string
+          format: date-time
+        fromStatus: *id004
+        toStatus: *id004
+        explanation:
+          type: string
+        resultingVersion: *id002
+      required:
+      - id
+      - requestId
+      - actorId
+      - occurredAt
+      - fromStatus
+      - toStatus
+      - explanation
+      - resultingVersion
+    Problem:
+      type: object
+      additionalProperties: true
+      properties:
+        type:
+          type: string
+          format: uri-reference
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        instance:
+          type: string
+          format: uri-reference
+        code:
+          type: string
+        errors:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              field:
+                type: string
+              code:
+                type: string
+            required:
+            - field
+            - code
+      required:
+      - type
+      - title
+      - status
+      - code
+    Csrf:
+      type: object
+      additionalProperties: false
+      properties:
+        token:
+          type: string
+        headerName:
+          type: string
+          const: X-XSRF-TOKEN
+      required:
+      - token
+      - headerName
+    RequestPage:
+      type: object
+      additionalProperties: false
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeRequest'
+        page:
+          type: integer
+          minimum: 0
+        size:
+          type: integer
+          minimum: 1
+          maximum: 100
+        totalElements:
+          type: integer
+          format: int64
+          minimum: 0
+        totalPages:
+          type: integer
+          minimum: 0
+      required:
+      - items
+      - page
+      - size
+      - totalElements
+      - totalPages
+    HistoryPage:
+      type: object
+      additionalProperties: false
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistoryEntry'
+        page:
+          type: integer
+          minimum: 0
+        size:
+          type: integer
+          minimum: 1
+          maximum: 100
+        totalElements:
+          type: integer
+          format: int64
+          minimum: 0
+        totalPages:
+          type: integer
+          minimum: 0
+      required:
+      - items
+      - page
+      - size
+      - totalElements
+      - totalPages
+  responses:
+    '400':
+      description: Malformed JSON, missing version, invalid parameter/type, unknown property.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: about:blank
+            title: Bad Request
+            status: 400
+            code: BAD_REQUEST
+    '401':
+      description: Missing or invalid credentials.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: about:blank
+            title: Unauthorized
+            status: 401
+            code: UNAUTHENTICATED
+      headers:
+        WWW-Authenticate:
+          schema:
+            type: string
+          description: Basic challenge
+    '403':
+      description: Missing current role, self-review, forbidden action or invalid CSRF.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: about:blank
+            title: Forbidden
+            status: 403
+            code: FORBIDDEN
+    '404':
+      description: Absent or invisible request; same response.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: about:blank
+            title: Not Found
+            status: 404
+            code: NOT_FOUND
+    '409':
+      description: INVALID_TRANSITION or CONCURRENT_MODIFICATION; no mutation.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: about:blank
+            title: Conflict
+            status: 409
+            code: CONCURRENT_MODIFICATION
+    '422':
+      description: Semantically invalid content such as blank Submit fields or explanation.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: about:blank
+            title: Unprocessable Content
+            status: 422
+            code: VALIDATION_FAILED
+    '500':
+      description: Atomic failure; no partial mutation.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: about:blank
+            title: Internal Server Error
+            status: 500
+            code: INTERNAL_ERROR
+    '503':
+      description: Identity/store unavailable; fail closed, no mutation.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: about:blank
+            title: Service Unavailable
+            status: 503
+            code: DEPENDENCY_UNAVAILABLE
