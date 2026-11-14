@@ -1,8 +1,8 @@
 # Implementation Plan: مدیریت درخواست‌های تغییر
 
-**Branch**: `001-change-request-management` | **Date**: 2026-11-14 | **Spec**: [spec.md](spec.md)
+**Branch**: `master` (شاخهٔ واقعی Git؛ پوشهٔ feature مستقل است) | **Date**: 2026-11-14 | **Spec**: [spec.md](spec.md)
 
-**Input**: `specs/001-change-request-management/spec.md`، شامل پاسخ Clarify و فرض‌های A-001 تا A-005.
+**Input**: `specs/001-change-request-management/spec.md`، شامل پاسخ Clarify و فرض‌های A-001 تا A-006.
 
 ## Summary
 
@@ -82,15 +82,20 @@ mvnw
 .mvn/wrapper/
 src/main/java/com/changeflow/
 ├── ChangeFlowApplication.java
+├── web/                      # مرز وب مشترک و Composition Root؛ وابستگی فقط به داخل
+│   ├── ProblemResponses.java
+│   ├── ApiExceptionHandler.java
+│   ├── SecurityConfiguration.java
+│   └── CsrfController.java
 ├── changerequest/
-│   ├── api/                  # Controller، Records، Problem mapping
+│   ├── api/                  # Controller و Records؛ بدون مالکیت mapper مشترک
 │   ├── application/          # use cases، transaction boundary، ports
 │   ├── domain/               # مدل مستقل، status، policies، errors
 │   └── infrastructure/       # JPA entities، adapters، mapping، audit persistence
 └── identity/
     ├── application/          # CurrentActor و CurrentAccess ports
     ├── domain/               # ActorId، Role، AccessSnapshot
-    └── infrastructure/       # Security configuration، DB identity adapter
+    └── infrastructure/       # DB identity adapter؛ بدون وابستگی به API یا web
 src/main/resources/
 ├── application.yaml
 └── db/migration/
@@ -99,10 +104,11 @@ src/test/java/com/changeflow/
 ├── changerequest/api/
 ├── changerequest/infrastructure/
 ├── identity/
+├── web/
 └── architecture/
 ```
 
-**Structure Decision**: package-by-feature در یک ماژول. api → application → domain؛ infrastructure قراردادهای application را پیاده می‌کند و به داخل وابسته است. اتصال adapterها در composition root انجام می‌شود. `changerequest.application` فقط قرارداد عمومی `identity.application` و value objectهای آن را مصرف می‌کند؛ هیچ feature به infrastructure دیگری وابسته نیست. Entity JPA مستقل از مدل دامنه است. Audit یک جزء درخواست تغییر است، نه feature یا سرویس جدا. Clock استاندارد برای زمان قابل‌کنترل در تست تزریق می‌شود.
+**Structure Decision**: package-by-feature در یک ماژول. api → application → domain؛ infrastructure قراردادهای application را پیاده می‌کند و به داخل وابسته است. اتصال adapterها در composition root انجام می‌شود. `changerequest.application` فقط قرارداد عمومی `identity.application` و value objectهای آن را مصرف می‌کند؛ هیچ feature به infrastructure دیگری وابسته نیست. Entity JPA مستقل از مدل دامنه است. Audit یک جزء درخواست تغییر است، نه feature یا سرویس جدا. Clock استاندارد برای زمان قابل‌کنترل در تست تزریق می‌شود. مرز بیرونی `com.changeflow.web` مالک ساخت Problem Details، نگاشت استثناهای HTTP، Security configuration و wiring handlerهاست؛ root به Portها/adapterهای داخلی وابسته است و identity.infrastructure هیچ وابستگی به web یا changerequest.api ندارد. Controllerهای feature نیز به mapper root وابسته نمی‌شوند؛ exceptionها در root به HTTP تبدیل می‌شوند. T011 فقط mapper عمومیِ بدون ارجاع به نوع‌های هنوزتعریف‌نشده می‌سازد؛ نگاشت exceptionهای feature پس از تعریف آن‌ها در T024/T030 تکمیل می‌شود.
 
 ## Phase 0 — Research
 
@@ -114,6 +120,12 @@ src/test/java/com/changeflow/
 - [contracts/openapi.yaml](contracts/openapi.yaml): قرارداد قابل‌پردازش.
 - [contracts/semantics.md](contracts/semantics.md): تقدم خطاها، تکرار، دسترسی و تراکنش.
 - [quickstart.md](quickstart.md): اجرای آتی و اعتبارسنجی سناریوها، بدون پیاده‌سازی در این مرحله.
+
+### مرز Foundation و اجرای Test-First
+
+T014 فقط شکل داده/امضای ChangeRequest، ChangeRequestStatus و StatusHistoryEntry بدون رفتار کسب‌وکاری را پیش از Entity mapping تعریف می‌کند؛ T015 Portها را با همین نوع‌ها تعریف می‌کند. قواعد ایجاد، ویرایش و Submit در T020 پس از تست قرمز T018 تکمیل می‌شوند و adapter Audit در T022 از نوع موجود استفاده می‌کند. دلیل: کمترین تغییر در ترتیب موجود، بدون وابستگی Foundation به پیاده‌سازی آیندهٔ US1.
+
+تست HTTP پیش از endpoint نوشته و قرمز می‌شود؛ T023 سبزشدن کل T019 را نمی‌خواهد، بلکه T024 endpoint را تکمیل و T026 checkpoint می‌شود. کل T028 پس از T031 و checkpoint US2 پس از T033 در T034 سبز است. بخش history از T043 پس از T047 و checkpoint US3 پس از T048 در T049 تکمیل می‌شود.
 
 ### راهبرد تست و ردیابی
 

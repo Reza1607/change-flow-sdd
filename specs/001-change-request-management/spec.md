@@ -1,6 +1,6 @@
 # Feature Specification: سامانه مدیریت درخواست‌های تغییر
 
-**Feature Branch**: `master` (شاخهٔ فعلی؛ شاخهٔ جدید ساخته نشده است)
+**Feature Branch**: `master` (مطابق شاخهٔ فعلی Git؛ پوشهٔ feature: `specs/001-change-request-management`)
 
 **Created**: 2026-11-14
 
