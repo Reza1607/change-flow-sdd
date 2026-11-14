@@ -21,13 +21,13 @@
 
 **Purpose**: ساخت پروژه و یک مسیر اجرای تکرارپذیر؛ هیچ رفتار کسب‌وکار در این فاز اضافه نمی‌شود.
 
-- [ ] T001 پروژهٔ یک‌ماژولی Java 21 / Boot 4.0.9 و dependencyهای رسمی Plan، PostgreSQL driver، Flyway PostgreSQL، تست و ArchUnit را در `pom.xml` تعریف کنید؛ نسخه‌ها از BOM، build با Maven و بررسی dependency resolution (FR-019؛ Constitution قیدهای فنی).
+- [X] T001 پروژهٔ یک‌ماژولی Java 21 / Boot 4.0.9 و dependencyهای رسمی Plan، PostgreSQL driver، Flyway PostgreSQL، تست و ArchUnit را در `pom.xml` تعریف کنید؛ نسخه‌ها از BOM، build با Maven و بررسی dependency resolution (FR-019؛ Constitution قیدهای فنی).
 
-- [ ] T002 Maven Wrapper با patch ثابت از سری 3.9 در `mvnw`، `mvnw.cmd` و `.mvn/wrapper/maven-wrapper.properties` بسازید؛ `*Test` با Surefire و `*IT` با Failsafe در verify، بدون skip پیش‌فرض، در `pom.xml` تنظیم و اجرای Wrapper بررسی شود (SC-001، SC-003؛ Constitution بخش ۸).
+- [X] T002 Maven Wrapper با patch ثابت از سری 3.9 در `mvnw`، `mvnw.cmd` و `.mvn/wrapper/maven-wrapper.properties` بسازید؛ `*Test` با Surefire و `*IT` با Failsafe در verify، بدون skip پیش‌فرض، در `pom.xml` تنظیم و اجرای Wrapper بررسی شود (SC-001، SC-003؛ Constitution بخش ۸).
 
-- [ ] T003 composition root و Clock تزریق‌پذیر را در `src/main/java/com/changeflow/ChangeFlowApplication.java` ایجاد کنید؛ packageهای feature طبق Plan و smoke compilation بررسی شود؛ domain به config وابسته نشود (FR-016؛ Constitution بخش ۵).
+- [X] T003 composition root و Clock تزریق‌پذیر را در `src/main/java/com/changeflow/ChangeFlowApplication.java` ایجاد کنید؛ packageهای feature طبق Plan و smoke compilation بررسی شود؛ domain به config وابسته نشود (FR-016؛ Constitution بخش ۵).
 
-- [ ] T004 تنظیمات بدون secret ثابت، Hibernate validate، Flyway فعال، open-in-view خاموش و پاسخ no-store را در `src/main/resources/application.yaml` و فایل‌های محلی در `.gitignore` تنظیم کنید؛ HTTP فقط dev loopback، TLS در محیط مشترک؛ بررسی پیکربندی (FR-014، FR-019).
+- [X] T004 تنظیمات بدون secret ثابت، Hibernate validate، Flyway فعال، open-in-view خاموش و پاسخ no-store را در `src/main/resources/application.yaml` و فایل‌های محلی در `.gitignore` تنظیم کنید؛ HTTP فقط dev loopback، TLS در محیط مشترک؛ بررسی پیکربندی (FR-014، FR-019).
 
 
 ## Phase 2: Foundational (Blocking Prerequisites)

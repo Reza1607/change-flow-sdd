@@ -1,0 +1,16 @@
+.git/
+.agents/
+.codex/
+.aws/
+.specify/
+target/
+node_modules/
+Dockerfile*
+.dockerignore
+*.log*
+.env*
+coverage/
+secrets/
+*.key
+*.p12
+*.jks

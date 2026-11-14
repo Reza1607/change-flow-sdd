@@ -5,9 +5,9 @@
 ## فهرست اسناد
 
 - [فرض‌های قابل بازبینی](assumptions.md): فرض‌های قابل بازبینی با شناسه‌های A-xxx، همراه با دلیل و وضعیت «قابل بازبینی»، دربارهٔ دسترسی، تاریخچه، فهرست و هویت.
-- [ADR-001 — Runtime، معماری و ذخیره‌سازی](decisions/001-runtime-and-storage.md): انتخاب Runtime، Modular Monolith، PostgreSQL، Flyway و تست واقعی؛ **وضعیت: پیشنهادی در Plan**.
-- [ADR-002 — هویت قابل‌جایگزینی و مجوز جاری](decisions/002-identity-and-live-authorization.md): روش احراز هویت، CSRF فعال با CookieCsrfTokenRepository و هماهنگی لغو نقش با پذیرش عملیات؛ **وضعیت: پیشنهادی در Plan؛ مرز زمانی در A-006 قابل بازبینی**.
-- [ADR-003 — نسخهٔ مورد انتظار و Audit اتمیک](decisions/003-concurrency-and-audit.md): کنترل همزمانی، رفتار درخواست تکراری و ثبت اتمیک تاریخچه؛ **وضعیت: پیشنهادی در Plan**.
+- [ADR-001 — Runtime، معماری و ذخیره‌سازی](decisions/001-runtime-and-storage.md): انتخاب Runtime، Modular Monolith، PostgreSQL، Flyway و تست واقعی؛ **وضعیت: پذیرفته‌شده**.
+- [ADR-002 — هویت قابل‌جایگزینی و مجوز جاری](decisions/002-identity-and-live-authorization.md): روش احراز هویت، CSRF فعال با CookieCsrfTokenRepository و هماهنگی لغو نقش با پذیرش عملیات؛ **وضعیت: پذیرفته‌شده؛ مرز زمانی در A-006 قابل بازبینی**.
+- [ADR-003 — نسخهٔ مورد انتظار و Audit اتمیک](decisions/003-concurrency-and-audit.md): کنترل همزمانی، رفتار درخواست تکراری و ثبت اتمیک تاریخچه؛ **وضعیت: پذیرفته‌شده**.
 
 ## افزودن ADR
 

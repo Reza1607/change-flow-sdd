@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: change-flow
+  # Supply SPRING_DATASOURCE_URL/USERNAME/PASSWORD externally; tests use ServiceConnection.
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+server:
+  address: ${CHANGEFLOW_BIND_ADDRESS:127.0.0.1}
+  ssl:
+    enabled: true
+    bundle: ${CHANGEFLOW_TLS_BUNDLE}
+  error:
+    include-message: never
+    include-stacktrace: never
+    include-binding-errors: never
+logging:
+  structured:
+    format:
+      console: logstash
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+server:
+  address: 127.0.0.1
+  ssl:
+    enabled: false
+    bundle: null
