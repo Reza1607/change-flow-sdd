@@ -33,7 +33,8 @@ public class SecurityConfiguration {
     @Bean SecurityFilterChain securityFilterChain(HttpSecurity http,AuthenticationManager manager,ObjectMapper mapper,CookieCsrfTokenRepository csrf) throws Exception {
         AuthenticationEntryPoint entry=(request,response,ex)-> {
             if(ex instanceof AuthenticationServiceException) {
-                ProblemResponses.write(response,mapper,HttpStatus.SERVICE_UNAVAILABLE,"DEPENDENCY_UNAVAILABLE");
+                var status=ProblemResponses.failureStatus(ex);
+                ProblemResponses.write(response,mapper,status,ProblemResponses.codeFor(status.value()));
             } else {
                 response.setHeader("WWW-Authenticate","Basic realm=\"change-flow\"");
                 ProblemResponses.write(response,mapper,HttpStatus.UNAUTHORIZED,"UNAUTHENTICATED");

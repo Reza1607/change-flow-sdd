@@ -111,19 +111,19 @@
 
 **Goal**: هیچ overwrite خاموش یا پذیرش با نقش لغوشده رخ ندهد. **Independent Test**: با fixtureهای واقعی و دو connection مستقل، edit/edit و Approve/Approve و دو ترتیب لغو نقش آزموده شوند. تکمیل نهایی US5 به mixed race در T046 و delete race در T056 نیز وابسته است؛ phase priority این وابستگی را پنهان نمی‌کند.
 
-- [ ] T035 [P] [US5] تست دو connection/EntityManager مستقل و barrier بدون sleep را در `src/test/java/com/changeflow/changerequest/infrastructure/ConcurrentMutationIT.java` بنویسید؛ edit/edit، edit/Submit، Approve/Approve، نسخهٔ قدیمی HTTP و حتی edit هم‌مقدار؛ هر race ۲۰ بار، دقیقاً یک پذیرش و حفظ نسخه/داده/Audit (FR-015، AS-19، AS-20، SC-003).
+- [X] T035 [P] [US5] تست دو connection/EntityManager مستقل و barrier بدون sleep را در `src/test/java/com/changeflow/changerequest/infrastructure/ConcurrentMutationIT.java` بنویسید؛ edit/edit، edit/Submit، Approve/Approve، نسخهٔ قدیمی HTTP و حتی edit هم‌مقدار؛ هر race ۲۰ بار، دقیقاً یک پذیرش و حفظ نسخه/داده/Audit (FR-015، AS-19، AS-20، SC-003).
 
-- [ ] T036 [P] [US5] تست لغو نقش با barrier پیش از guard نهایی در `src/test/java/com/changeflow/identity/InFlightRevocationIT.java` بنویسید؛ commit لغو قبل از ادامه → 403 و صفر اثر؛ guard زودتر → commit عملیات قبل از مؤثرشدن لغو؛ سپس همهٔ عملیات بعدی رد؛ یک نقش dual لغو شود و نقش دیگر مستقل بماند (FR-014، AS-22، A-006).
+- [X] T036 [P] [US5] تست لغو نقش با barrier پیش از guard نهایی در `src/test/java/com/changeflow/identity/InFlightRevocationIT.java` بنویسید؛ commit لغو قبل از ادامه → 403 و صفر اثر؛ guard زودتر → commit عملیات قبل از مؤثرشدن لغو؛ سپس همهٔ عملیات بعدی رد؛ یک نقش dual لغو شود و نقش دیگر مستقل بماند (FR-014، AS-22، A-006).
 
-- [ ] T037 [US5] مسیرهای CAS/flush و نگاشت optimistic failure به 409 CONCURRENT_MODIFICATION را در `src/main/java/com/changeflow/changerequest/infrastructure/JpaChangeRequestStore.java` و `src/main/java/com/changeflow/web/ApiExceptionHandler.java` با تست T035 تکمیل کنید؛ reload و retry شفاف تصمیم ممنوع؛ count Audit رقیب بازنده صفر (FR-015، FR-016، FR-019).
+- [X] T037 [US5] مسیرهای CAS/flush و نگاشت optimistic failure به 409 CONCURRENT_MODIFICATION را در `src/main/java/com/changeflow/changerequest/infrastructure/JpaChangeRequestStore.java` و `src/main/java/com/changeflow/web/ApiExceptionHandler.java` با تست T035 تکمیل کنید؛ reload و retry شفاف تصمیم ممنوع؛ count Audit رقیب بازنده صفر (FR-015، FR-016، FR-019).
 
-- [ ] T038 [US5] guard shared در mutation و read، re-read نقش بدون first-level cache و writer exclusive با accessVersion را در `src/main/java/com/changeflow/identity/infrastructure/DatabaseCurrentAccess.java` و `AccessProvisioner.java` با تست T036 تکمیل کنید؛ ترتیب قفل identity قبل از write درخواست، enabled/role تازه، fail closed و بدون endpoint مدیریت نقش (FR-014، A-006).
+- [X] T038 [US5] guard shared در mutation و read، re-read نقش بدون first-level cache و writer exclusive با accessVersion را در `src/main/java/com/changeflow/identity/infrastructure/DatabaseCurrentAccess.java` و `AccessProvisioner.java` با تست T036 تکمیل کنید؛ ترتیب قفل identity قبل از write درخواست، enabled/role تازه، fail closed و بدون endpoint مدیریت نقش (FR-014، A-006).
 
-- [ ] T039 [P] [US5] تست end-to-end تکرار Submit/Approve و RequestChanges fixture، نسخهٔ جاری/قدیمی، prior actor و غیرactor و role لغوشده را در `src/test/java/com/changeflow/changerequest/api/IdempotencyIT.java` اضافه کنید؛ RequestChanges HTTP در T046 تکمیل می‌شود؛ بدون Audit جدید یا افشای DTO (FR-011، FR-014، FR-019، FR-020، AS-21).
+- [X] T039 [P] [US5] تست end-to-end تکرار Submit/Approve و RequestChanges fixture، نسخهٔ جاری/قدیمی، prior actor و غیرactor و role لغوشده را در `src/test/java/com/changeflow/changerequest/api/IdempotencyIT.java` اضافه کنید؛ RequestChanges HTTP در T046 تکمیل می‌شود؛ بدون Audit جدید یا افشای DTO (FR-011، FR-014، FR-019، FR-020، AS-21).
 
-- [ ] T040 [US5] تست failure منبع مجوز/DB در `src/test/java/com/changeflow/identity/AuthorizationFailureIT.java` و مدیریت fail-closed در `src/main/java/com/changeflow/web/ProblemResponses.java` تکمیل کنید؛ نگاشت خطای identity در root وب انجام شود و adapter هویت فقط خطای داخلی/Port را برگرداند، بدون import از API feature یا web؛ پاسخ عمومی 503/500 متناسب، بدون commit یا خطای حاوی secret، و ثبات Problem در Security و API (FR-014، FR-019).
+- [X] T040 [US5] تست failure منبع مجوز/DB در `src/test/java/com/changeflow/identity/AuthorizationFailureIT.java` و مدیریت fail-closed در `src/main/java/com/changeflow/web/ProblemResponses.java` تکمیل کنید؛ نگاشت خطای identity در root وب انجام شود و adapter هویت فقط خطای داخلی/Port را برگرداند، بدون import از API feature یا web؛ پاسخ عمومی 503/500 متناسب، بدون commit یا خطای حاوی secret، و ثبات Problem در Security و API (FR-014، FR-019).
 
-- [ ] T041 [US5] نتایج واقعی raceها و دو ترتیب revocation را در `specs/001-change-request-management/validation/us5.md` ثبت کنید؛ T035/T036/T039/T040 سبز؛ وابستگی completion به T046 و T056 را باز نگه دارید و US5 پیش از آن‌ها Done اعلام نشود (FR-014، FR-015، FR-020، SC-003، SC-005).
+- [X] T041 [US5] نتایج واقعی raceها و دو ترتیب revocation را در `specs/001-change-request-management/validation/us5.md` ثبت کنید؛ T035/T036/T039/T040 سبز؛ وابستگی completion به T046 و T056 را باز نگه دارید و US5 پیش از آن‌ها Done اعلام نشود (FR-014، FR-015، FR-020، SC-003، SC-005).
 
 
 ## Phase 6: User Story 3 — اصلاح و ارسال مجدد (Priority: P2)

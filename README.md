@@ -4,7 +4,7 @@
 
 ## وضعیت فعلی
 
-Setup، Foundation، US1 و US2 (تا T034) تکمیل شده‌اند؛ [گزارش US2 و خروجی واقعی verify](specs/001-change-request-management/validation/us2.md) شاهد checkpoint است. ایجاد Draft، ویرایش، Submit، Approve شخص دیگر و مشاهدهٔ تکی با هویت Security Context، مجوز جاری، کنترل نسخه و Audit اتمیک موجودند. کار در checkpoint US2 متوقف شده است؛ Task بعدی T035 (US5) است و آغاز نشده است. RequestChanges فعلاً فقط قاعدهٔ domain دارد؛ endpoint و نمایش تاریخچه متعلق به US3 هستند.
+Setup، Foundation، US1، US2 و هستهٔ رقابت/لغو نقش US5 (T035 تا T041) اعتبارسنجی شده‌اند؛ [گزارش checkpoint و خروجی واقعی verify](specs/001-change-request-management/validation/us5.md) شامل تکرارهای واقعی race و کنترل‌های منفی است. ایجاد Draft، ویرایش، Submit، Approve شخص دیگر و مشاهدهٔ تکی با هویت Security Context، مجوز جاری، کنترل نسخه و Audit اتمیک موجودند. کار در T041 متوقف شده و Task بعدی T042 است. **US5 تا تکمیل T046 و T056 Done نیست**؛ RequestChanges فعلاً فقط قاعدهٔ domain دارد و endpoint/تاریخچهٔ عمومی آن هنوز ساخته نشده‌اند.
 
 ## Stack
 
@@ -70,7 +70,7 @@ export CHANGEFLOW_DEV_PASSWORD
 unset CHANGEFLOW_DEV_PASSWORD
 ```
 
-راهنمای [Quickstart کامل](specs/001-change-request-management/quickstart.md) شامل CSRF، نمونهٔ درخواست‌ها و سناریوهای اعتبارسنجی است. `verify` تست‌های موجود را با Surefire و Failsafe اجرا می‌کند؛ تست‌های داستان‌های آینده هنوز پیاده نشده‌اند. وضعیت واقعی اجرا در گزارش validation آمده است.
+راهنمای [Quickstart کامل](specs/001-change-request-management/quickstart.md) شامل CSRF، نمونهٔ درخواست‌ها و سناریوهای اعتبارسنجی است. `verify` تست‌های موجود را با Surefire و Failsafe اجرا می‌کند؛ تست‌های داستان‌های آینده هنوز پیاده نشده‌اند. وضعیت واقعی اجرا در گزارش validation آمده است. تست‌های جدید، چهار race درخواست را هرکدام ۲۰ بار و دو ترتیب لغو/guard را برای edit، Submit، Approve و GET هرکدام ۲۰ بار با PostgreSQL واقعی و barrier اجرا می‌کنند؛ sleep و retry تصمیم استفاده نمی‌شود. خطای قطع منبع، حتی با شکست rollback، 503 عمومی و خطای غیرمنتظره 500 است.
 
 ## نقش‌ها و گردش وضعیت
 

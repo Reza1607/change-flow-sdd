@@ -51,7 +51,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return response(status,ex.code().name());
     }
     @ExceptionHandler(AuthenticationException.class)
-    ResponseEntity<Object> authentication(AuthenticationException ex) {return response(HttpStatus.UNAUTHORIZED,"UNAUTHENTICATED");}
+    ResponseEntity<Object> authentication(AuthenticationException ex) {
+        if(ex instanceof org.springframework.security.authentication.AuthenticationServiceException) {
+            var status=ProblemResponses.failureStatus(ex);return response(status,ProblemResponses.codeFor(status.value()));
+        }
+        return response(HttpStatus.UNAUTHORIZED,"UNAUTHENTICATED");
+    }
     @ExceptionHandler(AccessDeniedException.class)
     ResponseEntity<Object> forbidden(AccessDeniedException ex) {return response(HttpStatus.FORBIDDEN,"FORBIDDEN");}
     @ExceptionHandler({DataAccessResourceFailureException.class,CannotCreateTransactionException.class})
@@ -59,7 +64,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(OptimisticLockingFailureException.class)
     ResponseEntity<Object> conflict(Exception ex) {return response(HttpStatus.CONFLICT,"CONCURRENT_MODIFICATION");}
     @ExceptionHandler(Exception.class)
-    ResponseEntity<Object> unexpected(Exception ex) {return response(HttpStatus.INTERNAL_SERVER_ERROR,"INTERNAL_ERROR");}
+    ResponseEntity<Object> unexpected(Exception ex) {
+        var status=ProblemResponses.failureStatus(ex);return response(status,ProblemResponses.codeFor(status.value()));
+    }
     private ResponseEntity<Object> response(HttpStatus status,String code) {
         return ResponseEntity.status(status).contentType(MediaType.APPLICATION_PROBLEM_JSON).cacheControl(CacheControl.noStore())
                 .body(ProblemResponses.create(status,code));
