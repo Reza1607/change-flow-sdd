@@ -1,0 +1,185 @@
+US3 observed TDD excerpts; extracted from real command logs, not full logs.
+All commands used MAVEN_USER_HOME=/tmp/changeflow-maven-user MAVEN_OPTS=-Dmaven.repo.local=/tmp/changeflow-m2.
+Full raw final verify is us3-verify.txt.
+
+initial HTTP red
+/tmp/changeflow-us3-initial-red.txt
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.970 s -- in com.changeflow.architecture.ArchitectureTest
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.176 s -- in com.changeflow.changerequest.domain.DraftRulesTest
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.079 s -- in com.changeflow.changerequest.domain.TransitionRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.146 s -- in com.changeflow.web.SetupConfigurationTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.039 s -- in com.changeflow.web.NoStoreFilterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in com.changeflow.web.CsrfCookieTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.changeflow.web.ProblemMappingTest
+[INFO] Tests run: 64, Failures: 0, Errors: 0, Skipped: 0
+[ERROR] Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 17.12 s <<< FAILURE! -- in com.changeflow.changerequest.api.ResubmissionIT
+org.opentest4j.AssertionFailedError: expected: <200> but was: <404>
+org.opentest4j.AssertionFailedError: expected: <200> but was: <404>
+[ERROR] Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 6.766 s <<< FAILURE! -- in com.changeflow.changerequest.api.RequestChangesIT
+org.opentest4j.AssertionFailedError: expected: <403> but was: <404>
+org.opentest4j.AssertionFailedError: expected: <422> but was: <404>
+[ERROR]   RequestChangesIT.explanationIsRequiredIncludingUnicodeWhitespaceWithoutAnyEffects:16->DraftApiSupport.problem:29 expected: <422> but was: <404>
+[ERROR]   RequestChangesIT.validReturnIsAtomicAndDualOwnerCannotReviewSelf:22->DraftApiSupport.problem:29 expected: <403> but was: <404>
+[ERROR]   ResubmissionIT.editsAndSubmitKeepEarlierAuditAndValidateContentAndCurrentOwnerRole:12 expected: <200> but was: <404>
+[ERROR]   ResubmissionIT.historySurvivesRealCorrectionCycle:26 expected: <200> but was: <404>
+[ERROR] Tests run: 4, Failures: 4, Errors: 0, Skipped: 0
+[INFO] BUILD FAILURE
+[INFO] Total time:  32.061 s
+[INFO] Finished at: 2026-11-15T16:25:57+03:30
+
+T042/T043 and history before implementation
+/tmp/changeflow-us3-tests-red.txt
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.220 s -- in com.changeflow.architecture.ArchitectureTest
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.220 s -- in com.changeflow.changerequest.domain.DraftRulesTest
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.129 s -- in com.changeflow.changerequest.domain.TransitionRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.173 s -- in com.changeflow.web.SetupConfigurationTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.047 s -- in com.changeflow.web.NoStoreFilterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in com.changeflow.web.CsrfCookieTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.changeflow.web.ProblemMappingTest
+[INFO] Tests run: 64, Failures: 0, Errors: 0, Skipped: 0
+[ERROR] Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 18.13 s <<< FAILURE! -- in com.changeflow.changerequest.api.ResubmissionIT
+org.opentest4j.AssertionFailedError: expected: <200> but was: <404>
+org.opentest4j.AssertionFailedError: expected: <200> but was: <404>
+[ERROR] Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 10.21 s <<< FAILURE! -- in com.changeflow.changerequest.api.HistoryIT
+org.opentest4j.AssertionFailedError: expected: <200> but was: <404>
+org.opentest4j.AssertionFailedError: expected: <400> but was: <404>
+[ERROR] Tests run: 3, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 8.186 s <<< FAILURE! -- in com.changeflow.changerequest.api.HistoryVisibilityIT
+org.opentest4j.AssertionFailedError: expected: <{"instance":"/api/v1/change-requests/dccb9714-faf1-413c-9722-36046f7473e6/history","status":404,"title":"Not Found","type":"about:blank","code":"NOT_FOUND"}> but was: <{"instance":"/api/v1/change-requests/ea4f0567-7b57-4b86-b0d3-fda812f463c7/history","status":404,"title":"Not Found","type":"about:blank","code":"NOT_FOUND"}>
+org.opentest4j.AssertionFailedError: expected: <200> but was: <404>
+org.opentest4j.AssertionFailedError: expected: <200> but was: <404>
+[ERROR] Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 7.732 s <<< FAILURE! -- in com.changeflow.changerequest.api.RequestChangesIT
+org.opentest4j.AssertionFailedError: expected: <403> but was: <404>
+org.opentest4j.AssertionFailedError: expected: <422> but was: <404>
+[ERROR]   HistoryIT.historyIsPagedByResultingVersionWithCompleteUtcDtoAndNoMutationRoutes:18 expected: <200> but was: <404>
+[ERROR]   HistoryIT.invalidPaginationIsBadRequestAndCannotMutateAudit:41->DraftApiSupport.problem:29 expected: <400> but was: <404>
+[ERROR]   HistoryVisibilityIT.draftHistoryIsEmptyAndReadRequiresAuthentication:39 expected: <200> but was: <404>
+[ERROR]   HistoryVisibilityIT.invisibleParentAndAbsentParentHaveIdenticalNoLeakErrors:20 expected: <{"instance":"/api/v1/change-requests/dccb9714-faf1-413c-9722-36046f7473e6/history","status":404,"title":"Not Found","type":"about:blank","code":"NOT_FOUND"}> but was: <{"instance":"/api/v1/change-requests/ea4f0567-7b57-4b86-b0d3-fda812f463c7/history","status":404,"title":"Not Found","type":"about:blank","code":"NOT_FOUND"}>
+[ERROR]   HistoryVisibilityIT.reviewerLosesHistoryWhenParentLeavesPendingAndFreshRolesControlDualOwner:30 expected: <200> but was: <404>
+[ERROR]   RequestChangesIT.explanationIsRequiredIncludingUnicodeWhitespaceWithoutAnyEffects:16->DraftApiSupport.problem:29 expected: <422> but was: <404>
+[ERROR]   RequestChangesIT.validReturnIsAtomicAndDualOwnerCannotReviewSelf:22->DraftApiSupport.problem:29 expected: <403> but was: <404>
+[ERROR]   ResubmissionIT.editsAndSubmitKeepEarlierAuditAndValidateContentAndCurrentOwnerRole:12 expected: <200> but was: <404>
+[ERROR]   ResubmissionIT.historySurvivesRealCorrectionCycle:26 expected: <200> but was: <404>
+[ERROR] Tests run: 9, Failures: 9, Errors: 0, Skipped: 0
+[INFO] BUILD FAILURE
+[INFO] Total time:  57.045 s
+[INFO] Finished at: 2026-11-15T17:05:18+03:30
+
+additional safety before endpoint
+/tmp/changeflow-us3-safety-red.txt
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.110 s -- in com.changeflow.architecture.ArchitectureTest
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.213 s -- in com.changeflow.changerequest.domain.DraftRulesTest
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.097 s -- in com.changeflow.changerequest.domain.TransitionRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.178 s -- in com.changeflow.web.SetupConfigurationTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.040 s -- in com.changeflow.web.NoStoreFilterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in com.changeflow.web.CsrfCookieTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.changeflow.web.ProblemMappingTest
+[INFO] Tests run: 64, Failures: 0, Errors: 0, Skipped: 0
+[ERROR] Tests run: 4, Failures: 2, Errors: 1, Skipped: 0, Time elapsed: 38.51 s <<< FAILURE! -- in com.changeflow.changerequest.api.CorrectionSafetyIT
+org.opentest4j.AssertionFailedError: expected: <409> but was: <404>
+org.opentest4j.AssertionFailedError: expected: <500> but was: <404>
+java.lang.IllegalStateException: test latch timed out
+[ERROR]   CorrectionSafetyIT.rejectedAuditRollsBackRequestChangesStatusAndVersion:30->DraftApiSupport.problem:29 expected: <500> but was: <404>
+[ERROR]   CorrectionSafetyIT.requestChangesChecksVersionInputAndRoleWithoutEffects:20->DraftApiSupport.problem:29 expected: <409> but was: <404>
+[ERROR]   CorrectionSafetyIT.committedRevocationBeforeRequestChangesGuardRejectsAlreadyStartedOperation:40 » IllegalState test latch timed out
+[ERROR] Tests run: 4, Failures: 2, Errors: 1, Skipped: 0
+[INFO] BUILD FAILURE
+[INFO] Total time:  50.097 s
+[INFO] Finished at: 2026-11-15T17:06:27+03:30
+
+T044/T045 before history reader
+/tmp/changeflow-us3-before-reader.txt
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.107 s -- in com.changeflow.architecture.ArchitectureTest
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.269 s -- in com.changeflow.changerequest.domain.DraftRulesTest
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.120 s -- in com.changeflow.changerequest.domain.TransitionRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.155 s -- in com.changeflow.web.SetupConfigurationTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.045 s -- in com.changeflow.web.NoStoreFilterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in com.changeflow.web.CsrfCookieTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.changeflow.web.ProblemMappingTest
+[INFO] Tests run: 64, Failures: 0, Errors: 0, Skipped: 0
+[ERROR] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 20.68 s <<< FAILURE! -- in com.changeflow.changerequest.api.ResubmissionIT
+org.opentest4j.AssertionFailedError: expected: <200> but was: <404>
+[ERROR] Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 7.690 s <<< FAILURE! -- in com.changeflow.changerequest.api.HistoryIT
+org.opentest4j.AssertionFailedError: expected: <200> but was: <404>
+org.opentest4j.AssertionFailedError: expected: <400> but was: <404>
+[ERROR] Tests run: 3, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 7.990 s <<< FAILURE! -- in com.changeflow.changerequest.api.HistoryVisibilityIT
+org.opentest4j.AssertionFailedError: expected: <{"instance":"/api/v1/change-requests/d4751c6c-2921-4330-b9c7-c391852d04eb/history","status":404,"title":"Not Found","type":"about:blank","code":"NOT_FOUND"}> but was: <{"instance":"/api/v1/change-requests/f8100a9f-14d7-429b-a0a4-80467f257075/history","status":404,"title":"Not Found","type":"about:blank","code":"NOT_FOUND"}>
+org.opentest4j.AssertionFailedError: expected: <200> but was: <404>
+org.opentest4j.AssertionFailedError: expected: <200> but was: <404>
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.895 s -- in com.changeflow.changerequest.api.RequestChangesIT
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.50 s -- in com.changeflow.changerequest.api.CorrectionSafetyIT
+[ERROR]   HistoryIT.historyIsPagedByResultingVersionWithCompleteUtcDtoAndNoMutationRoutes:18 expected: <200> but was: <404>
+[ERROR]   HistoryIT.invalidPaginationIsBadRequestAndCannotMutateAudit:41->DraftApiSupport.problem:29 expected: <400> but was: <404>
+[ERROR]   HistoryVisibilityIT.draftHistoryIsEmptyAndReadRequiresAuthentication:39 expected: <200> but was: <404>
+[ERROR]   HistoryVisibilityIT.invisibleParentAndAbsentParentHaveIdenticalNoLeakErrors:20 expected: <{"instance":"/api/v1/change-requests/d4751c6c-2921-4330-b9c7-c391852d04eb/history","status":404,"title":"Not Found","type":"about:blank","code":"NOT_FOUND"}> but was: <{"instance":"/api/v1/change-requests/f8100a9f-14d7-429b-a0a4-80467f257075/history","status":404,"title":"Not Found","type":"about:blank","code":"NOT_FOUND"}>
+[ERROR]   HistoryVisibilityIT.reviewerLosesHistoryWhenParentLeavesPendingAndFreshRolesControlDualOwner:30 expected: <200> but was: <404>
+[ERROR]   ResubmissionIT.historySurvivesRealCorrectionCycle:29 expected: <200> but was: <404>
+[ERROR] Tests run: 13, Failures: 6, Errors: 0, Skipped: 0
+[INFO] BUILD FAILURE
+[INFO] Total time:  01:05 min
+[INFO] Finished at: 2026-11-15T17:07:56+03:30
+
+T046 baseline green
+/tmp/changeflow-us3-races-green.txt
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.196 s -- in com.changeflow.architecture.ArchitectureTest
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.194 s -- in com.changeflow.changerequest.domain.DraftRulesTest
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.091 s -- in com.changeflow.changerequest.domain.TransitionRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.176 s -- in com.changeflow.web.SetupConfigurationTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.054 s -- in com.changeflow.web.NoStoreFilterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 s -- in com.changeflow.web.CsrfCookieTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.changeflow.web.ProblemMappingTest
+[INFO] Tests run: 64, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 24.13 s -- in com.changeflow.changerequest.api.IdempotencyIT
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.60 s -- in com.changeflow.changerequest.infrastructure.MixedReviewRaceIT
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  53.931 s
+[INFO] Finished at: 2026-11-15T17:09:32+03:30
+
+first reader run, one new fixture error
+/tmp/changeflow-us3-history-green.txt
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.674 s -- in com.changeflow.architecture.ArchitectureTest
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.290 s -- in com.changeflow.changerequest.domain.DraftRulesTest
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.113 s -- in com.changeflow.changerequest.domain.TransitionRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.204 s -- in com.changeflow.web.SetupConfigurationTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.054 s -- in com.changeflow.web.NoStoreFilterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s -- in com.changeflow.web.CsrfCookieTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in com.changeflow.web.ProblemMappingTest
+[INFO] Tests run: 64, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 22.75 s -- in com.changeflow.changerequest.api.ResubmissionIT
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.165 s -- in com.changeflow.changerequest.api.HistoryIT
+[ERROR] Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 8.619 s <<< FAILURE! -- in com.changeflow.changerequest.api.HistoryVisibilityIT
+org.opentest4j.AssertionFailedError: expected: <{"instance":"/api/v1/change-requests/59ae1fec-fb66-4aa0-bbdd-ce7c8a88e69b/history","status":404,"title":"Not Found","type":"about:blank","code":"NOT_FOUND"}> but was: <{"instance":"/api/v1/change-requests/4e8319fd-81e0-47c5-adfa-5de9dd5bb0c3/history","status":404,"title":"Not Found","type":"about:blank","code":"NOT_FOUND"}>
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.30 s -- in com.changeflow.changerequest.api.RequestChangesIT
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.02 s -- in com.changeflow.changerequest.api.CorrectionSafetyIT
+[ERROR]   HistoryVisibilityIT.invisibleParentAndAbsentParentHaveIdenticalNoLeakErrors:20 expected: <{"instance":"/api/v1/change-requests/59ae1fec-fb66-4aa0-bbdd-ce7c8a88e69b/history","status":404,"title":"Not Found","type":"about:blank","code":"NOT_FOUND"}> but was: <{"instance":"/api/v1/change-requests/4e8319fd-81e0-47c5-adfa-5de9dd5bb0c3/history","status":404,"title":"Not Found","type":"about:blank","code":"NOT_FOUND"}>
+[ERROR] Tests run: 13, Failures: 1, Errors: 0, Skipped: 0
+[INFO] BUILD FAILURE
+[INFO] Total time:  01:17 min
+[INFO] Finished at: 2026-11-15T17:15:55+03:30
+
+CAS negative control
+/tmp/changeflow-us3-race-mutant.txt
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.186 s -- in com.changeflow.architecture.ArchitectureTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[ERROR] Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 18.14 s <<< FAILURE! -- in com.changeflow.changerequest.infrastructure.MixedReviewRaceIT
+org.opentest4j.AssertionFailedError: exactly one accepted decision ==> expected: <1> but was: <2>
+org.opentest4j.AssertionFailedError: exactly one accepted decision ==> expected: <1> but was: <2>
+[ERROR]   MixedReviewRaceIT.twoIndependentReviewersAcceptExactlyOneDecision:30 exactly one accepted decision ==> expected: <1> but was: <2>
+[ERROR]   MixedReviewRaceIT.twoIndependentReviewersAcceptExactlyOneDecision:30 exactly one accepted decision ==> expected: <1> but was: <2>
+[ERROR] Tests run: 2, Failures: 2, Errors: 0, Skipped: 0
+[INFO] BUILD FAILURE
+[INFO] Total time:  27.071 s
+[INFO] Finished at: 2026-11-15T17:17:26+03:30
+
+nonblank negative control
+/tmp/changeflow-us3-request-changes-mutant.txt
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.447 s -- in com.changeflow.architecture.ArchitectureTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[ERROR] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 18.58 s <<< FAILURE! -- in com.changeflow.changerequest.api.RequestChangesIT
+org.opentest4j.AssertionFailedError: expected: <422> but was: <500>
+[ERROR]   RequestChangesIT.explanationIsRequiredIncludingUnicodeWhitespaceWithoutAnyEffects:16->DraftApiSupport.problem:29 expected: <422> but was: <500>
+[ERROR] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0
+[INFO] BUILD FAILURE
+[INFO] Total time:  27.964 s
+[INFO] Finished at: 2026-11-15T17:18:12+03:30
+

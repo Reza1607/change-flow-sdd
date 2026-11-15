@@ -30,6 +30,9 @@ public class RequestMutationExecutor {
     public ChangeRequest approve(ActorId actor,UUID id,long version,String explanation) {
         return execute(actor,id,version,TransitionPolicy.Command.Approve,null,explanation);
     }
+    public ChangeRequest requestChanges(ActorId actor,UUID id,long version,String explanation) {
+        return execute(actor,id,version,TransitionPolicy.Command.RequestChanges,null,explanation);
+    }
     private ChangeRequest execute(ActorId actor,UUID id,long version,TransitionPolicy.Command command,
             UnaryOperator<ChangeRequest> edit,String explanation) {
         var initial=access.read(actor);

@@ -1,4 +1,16 @@
-# US5 — checkpoint هستهٔ فاز ۵، T035 تا T041
+# US5 — وضعیت تا checkpoint US3، T049
+
+**US5 تا تکمیل T056 Done نیست**.
+
+به‌روزرسانی 2026-11-15: T046 تکمیل شد. mixed Approve/RequestChanges و double RequestChanges هرکدام ۲۰ بار با PostgreSQL واقعی، دو connection/EntityManager مستقل و barrier بدون sleep اجرا شدند؛ هر بار یک موفقیت، یک 409 CONCURRENT_MODIFICATION، نسخهٔ صحیح و دقیقاً یک Audit با صفر Audit بازنده. تست HTTP تکرار RequestChanges با نسخهٔ قدیمی/جاری نیز تکمیل شد: Reviewer قبلی و Reviewer دیگرِ فاقد دید 404، مالک دو‌نقشه 403، بدون اثر و بدون Audit تازه. استثنای رسید تکرار Approve تعمیم داده نشد.
+
+کنترل منفی CAS برای هر دو race قرمز واقعی با دو پذیرش به‌جای یکی ایجاد کرد؛ محافظ برگردانده شد. کنترل منفی nonblank RequestChanges نیز قرمز شد و برگردانده شد. نتیجهٔ کامل، exit code، فهرست فایل‌ها و تفاوت‌های اجرا در [checkpoint US3](us3.md)، [خروجی کامل verify](us3-verify.txt) و [شواهد TDD](us3-tdd.txt) ثبت شده‌اند. شواهد این checkpoint جایگزین ادعای ناقص T046 در زمان T041 می‌شوند؛ T056 و فازهای بعدی اجرا نشده‌اند.
+
+بخش زیر **گزارش تاریخی checkpoint T041** است؛ عبارت‌های «هنوز اجرا نشده» در آن، وضعیت همان checkpoint قبلی را توصیف می‌کنند.
+
+---
+
+## گزارش تاریخی T041 — هستهٔ فاز ۵، T035 تا T041
 
 تاریخ: **2026-11-15**. فقط T035–T041 طبق محدودهٔ تأییدشده اجرا و پس از تست سبز `[X]` شدند. در این checkpoint توقف شد؛ **T042 به بعد، T046 و T056 اجرا نشده‌اند**. endpoint، DTO یا use case جدید RequestChanges ساخته نشد.
 

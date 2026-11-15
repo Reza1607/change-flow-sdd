@@ -12,6 +12,9 @@ public class ReviewRequestService {
     private final CurrentActor actor;
     private final RequestMutationExecutor mutations;
     public ReviewRequestService(CurrentActor actor,RequestMutationExecutor mutations) {this.actor=actor;this.mutations=mutations;}
+    public ChangeRequest requestChanges(UUID id,long expectedVersion,String explanation) {
+        return mutations.requestChanges(actor.require(),id,expectedVersion,explanation);
+    }
     public ChangeRequest approve(UUID id,long expectedVersion,String explanation) {
         return mutations.approve(actor.require(),id,expectedVersion,explanation);
     }

@@ -52,6 +52,23 @@ class IdempotencyIT extends DraftApiSupport {
         for(long version:new long[]{1,2}) problem(mutate(owner,"POST",BASE+"/"+id+"/submit",encode(Map.of("expectedVersion",version))),409,"INVALID_TRANSITION");
         assertEquals(before,snapshot(id));assertEquals(history,jdbc.queryForList("select * from status_history where request_id=? order by resulting_version",id));
     }
+    @Test void requestChangesRepeatHasNoReceiptExceptionAndNoEffectsForInvisiblePriorActor() throws Exception {
+        var owner=account(true,true);var actor=account(false,true);var other=account(false,true);
+        var id=seed(owner,"PendingReview","private title","d","r",0);
+        assertEquals(200,mutate(actor,"POST",BASE+"/"+id+"/request-changes","{\"expectedVersion\":0,\"explanation\":\"fix\"}").statusCode());
+        var before=snapshot(id);var history=jdbc.queryForList("select * from status_history where request_id=?",id);
+        for(long version:new long[]{0,1}) {
+            var body=encode(Map.of("expectedVersion",version,"explanation","fix"));
+            for(var reviewer:List.of(actor,other)) {
+                var repeat=mutate(reviewer,"POST",BASE+"/"+id+"/request-changes",body);
+                problem(repeat,404,"NOT_FOUND");noDto(repeat.body());
+            }
+            problem(mutate(owner,"POST",BASE+"/"+id+"/request-changes",body),403,"SELF_REVIEW_FORBIDDEN");
+        }
+        provisioner.change(new ActorId(actor.id()),0,true,false,false);
+        problem(mutate(actor,"POST",BASE+"/"+id+"/request-changes","{\"expectedVersion\":1,\"explanation\":\"fix\"}"),403,"FORBIDDEN");
+        assertEquals(before,snapshot(id));assertEquals(history,jdbc.queryForList("select * from status_history where request_id=?",id));
+    }
     private void noDto(String body) {
         assertFalse(body.contains("private title"));assertNull(json(body).get("id"));assertNull(json(body).get("requesterId"));
         assertNull(json(body).get("version"));assertNull(json(body).get("explanation"));
