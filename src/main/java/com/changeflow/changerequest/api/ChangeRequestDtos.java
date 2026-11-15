@@ -10,8 +10,8 @@ public final class ChangeRequestDtos {
     public record DraftInput(String title,String description,String reason) {}
     public record EditInput(@NotNull @PositiveOrZero Long expectedVersion,
         @JsonProperty(required=true) String title,@JsonProperty(required=true) String description,@JsonProperty(required=true) String reason) {}
-    public record SubmitInput(@NotNull @PositiveOrZero Long expectedVersion,tools.jackson.databind.JsonNode explanation) {
-        public SubmitInput {
+    public record TransitionInput(@NotNull @PositiveOrZero Long expectedVersion,tools.jackson.databind.JsonNode explanation) {
+        public TransitionInput {
             // Jackson distinguishes an absent node (Java null) from explicit JSON null (NullNode).
             if(explanation!=null && !explanation.isString()) throw new IllegalArgumentException("explanation must be a string when present");
         }

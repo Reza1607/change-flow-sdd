@@ -40,7 +40,7 @@ Agent MUST به‌ترتیب بخواند؛ Constitution مرجع الزام‌�
 ## Build و Test
 
 مرجع دستورها: [Quickstart](specs/001-change-request-management/quickstart.md).
-`pom.xml` و Maven Wrapper از Setup موجودند. Build و تست با JDK 21 و Docker-compatible runtime فعال اجرا می‌شوند؛ نتیجهٔ US1 باید از [گزارش واقعی validation](specs/001-change-request-management/validation/us1.md) خوانده شود:
+`pom.xml` و Maven Wrapper از Setup موجودند. Build و تست با JDK 21 و Docker-compatible runtime فعال اجرا می‌شوند؛ نتیجهٔ US2 باید از [گزارش واقعی validation](specs/001-change-request-management/validation/us2.md) خوانده شود:
 
 ```bash
 ./mvnw verify
@@ -50,14 +50,15 @@ Agent MUST به‌ترتیب بخواند؛ Constitution مرجع الزام‌�
 
 ## ساختار Package و وابستگی
 
-پس از Foundation و US1، ساختار واقعی زیر `com.changeflow` است؛ checkpoint در [گزارش US1](specs/001-change-request-management/validation/us1.md) ثبت شده و Task بعدی T027 (US2) است؛ US2 آغاز نشده است:
+پس از Foundation، US1 و US2، ساختار واقعی زیر `com.changeflow` است؛ checkpoint در [گزارش US2](specs/001-change-request-management/validation/us2.md) ثبت شده و Task بعدی T035 (US5) است؛ فاز بعدی آغاز نشده است:
 
-- `changerequest.api`: Records ورودی/خروجی مستقل و Controllerهای POST/PUT/Submit/GET تکی، بدون قواعد کسب‌وکار.
-- `changerequest.application`: Portهای ذخیره/Audit/خواندن، DraftRequestService، RequestMutationExecutor و GetRequestService؛ هویت جاری و مرز تراکنش/guard.
-- `changerequest.domain`: مدل مستقل `ChangeRequest` با قواعد ایجاد/ویرایش/Submit، خطای دامنه، `StatusHistoryEntry` و enum چهار وضعیت.
-- `changerequest.infrastructure`: Entity/نگاشت دستی، JpaChangeRequestStore با CAS و @Version، JpaAuditTrail، JpaRequestReader با predicate مجوز و RequestLoggingFilter.
+- `changerequest.api`: Records ورودی/خروجی مستقل و Controllerهای POST/PUT/Submit/Approve/GET تکی، بدون قواعد کسب‌وکار.
+- `changerequest.application`: Portهای ذخیره/Audit/خواندن، DraftRequestService، ReviewRequestService، RequestMutationExecutor، RepeatedTransitionPolicy و GetRequestService؛ هویت جاری و مرز تراکنش/guard.
+- `changerequest.domain`: مدل مستقل `ChangeRequest` با قواعد ایجاد/ویرایش، TransitionPolicy چهار گذار، خطاهای دامنه، `StatusHistoryEntry` و enum چهار وضعیت.
+- `changerequest.infrastructure`: Entity/نگاشت دستی، JpaChangeRequestStore با CAS و @Version، JpaAuditTrail، StatusHistoryRepository با query محدود boolean رسید Approve، JpaRequestReader با predicate مجوز و RequestLoggingFilter.
 - `identity.application / domain / infrastructure`: Portهای هویت و دسترسی، value typeها، حساب JPA، adapter هویت، guard تازه و writer داخلی نسخه‌دار نقش؛ بدون endpoint مدیریت کاربران.
 - `web`: Security wiring، CSRF endpoint، JSON سخت‌گیرانه، mapper خطا و no-store؛ composition root و Clock UTC در `ChangeFlowApplication`.
+- RequestChanges فقط در TransitionPolicy است؛ endpoint و History reader ساخته نشده‌اند. تست رقابت و لغو حین عملیات متعلق به T035/T036 است و در US2 تکمیل ادعا نمی‌شود.
 - resources: Migration V1، Hibernate validate و لاگ JSON؛ API/Persistence tests از PostgreSQL واقعی 17.12 استفاده می‌کنند.
 
 - وابستگی MUST به داخل باشد؛ domain MUST مستقل از Spring/JPA باشد؛ تزریق MUST با Constructor Injection انجام شود.

@@ -29,6 +29,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             .map(field->java.util.Map.of("field",field,"code","NOT_BLANK")).toList());
         return ResponseEntity.status(status).contentType(MediaType.APPLICATION_PROBLEM_JSON).cacheControl(CacheControl.noStore()).body(problem);
     }
+    @ExceptionHandler(com.changeflow.changerequest.domain.DomainFailure.class)
+    ResponseEntity<Object> transitionRule(com.changeflow.changerequest.domain.DomainFailure ex) {
+        var status=switch(ex.code()) {
+            case FORBIDDEN,SELF_REVIEW_FORBIDDEN -> HttpStatus.FORBIDDEN;
+            case INVALID_TRANSITION -> HttpStatus.CONFLICT;
+            case VALIDATION_FAILED -> HttpStatus.valueOf(422);
+        };
+        var problem=ProblemResponses.create(status,ex.code().name());
+        if(!ex.fields().isEmpty()) problem.setProperty("errors",ex.fields().stream()
+            .map(field->java.util.Map.of("field",field,"code","NOT_BLANK")).toList());
+        return ResponseEntity.status(status).contentType(MediaType.APPLICATION_PROBLEM_JSON).cacheControl(CacheControl.noStore()).body(problem);
+    }
     @ExceptionHandler(com.changeflow.changerequest.application.RequestAccessFailure.class)
     ResponseEntity<Object> requestAccess(com.changeflow.changerequest.application.RequestAccessFailure ex) {
         var status=switch(ex.code()) {

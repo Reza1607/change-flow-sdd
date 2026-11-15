@@ -4,7 +4,7 @@
 
 ## وضعیت فعلی
 
-Setup، Foundation و US1 (T018 تا T026) تکمیل شده‌اند؛ [گزارش US1 و خروجی واقعی verify](specs/001-change-request-management/validation/us1.md) شاهد checkpoint است. ایجاد Draft، ویرایش، Submit و مشاهدهٔ تکی با هویت Security Context، مجوز جاری، کنترل نسخه و Audit اتمیک موجودند. کار در checkpoint US1 متوقف شده است؛ مرحلهٔ بعد US2 از T027 است و آغاز نشده است.
+Setup، Foundation، US1 و US2 (تا T034) تکمیل شده‌اند؛ [گزارش US2 و خروجی واقعی verify](specs/001-change-request-management/validation/us2.md) شاهد checkpoint است. ایجاد Draft، ویرایش، Submit، Approve شخص دیگر و مشاهدهٔ تکی با هویت Security Context، مجوز جاری، کنترل نسخه و Audit اتمیک موجودند. کار در checkpoint US2 متوقف شده است؛ Task بعدی T035 (US5) است و آغاز نشده است. RequestChanges فعلاً فقط قاعدهٔ domain دارد؛ endpoint و نمایش تاریخچه متعلق به US3 هستند.
 
 ## Stack
 
@@ -25,10 +25,10 @@ src/main/java/com/changeflow/
 ├── web/                      # Security، CSRF، Problem و no-store
 ├── identity/                 # ports، value types و adapterهای DB/guard
 └── changerequest/
-    ├── api/                  # DTOهای مستقل و POST/PUT/Submit/GET تکی
-    ├── application/          # use caseهای Draft/Submit/GET، executor و Portها
-    ├── domain/               # مدل مستقل و قواعد ایجاد/ویرایش/Submit
-    └── infrastructure/       # Entity/نگاشت، ذخیره CAS، Audit، reader و لاگ
+    ├── api/                  # DTOهای مستقل و POST/PUT/Submit/Approve/GET تکی
+    ├── application/          # use caseهای Draft/Submit/Approve/GET، executor و سیاست تکرار
+    ├── domain/               # مدل مستقل، قواعد Draft و policy چهار گذار
+    └── infrastructure/       # Entity/نگاشت، CAS، Audit/رسید محدود، reader و لاگ
 src/main/resources/           # application.yaml، logback و Migration V1
 src/test/java/com/changeflow/
 .agents/skills/
@@ -74,7 +74,7 @@ unset CHANGEFLOW_DEV_PASSWORD
 
 ## نقش‌ها و گردش وضعیت
 
-در US1، `POST /api/v1/change-requests`، `PUT /api/v1/change-requests/{id}`، `POST /api/v1/change-requests/{id}/submit` و `GET /api/v1/change-requests/{id}` پیاده شده‌اند. نمودار زیر رفتار مصوب محصول کامل است؛ Approve، RequestChanges، فهرست، تاریخچه و حذف هنوز endpoint ندارند.
+اکنون `POST /api/v1/change-requests`، `PUT /api/v1/change-requests/{id}`، `POST /api/v1/change-requests/{id}/submit`، `POST /api/v1/change-requests/{id}/approve` و `GET /api/v1/change-requests/{id}` پیاده شده‌اند. پاسخ موفق Approve رسید همان عملیات است و برای Reviewer دسترسی GET پس از Approved ایجاد نمی‌کند؛ تکرار همان عامل موفق با نقش جاری، 409 عمومی بدون DTO و دیگر Reviewerهای فاقد visibility، 404 می‌گیرند. نمودار زیر رفتار مصوب محصول کامل است؛ RequestChanges، فهرست، تاریخچه و حذف هنوز endpoint ندارند.
 
 - **Requester:** ایجاد Draft، ویرایش درخواست خود فقط در Draft و ChangesRequested، Submit و حذف فقط Draft خود.
 - **Reviewer:** مشاهدهٔ PendingReviewها و Approve یا RequestChanges روی درخواست شخص دیگر؛ توضیح RequestChanges اجباری است.

@@ -22,7 +22,7 @@ public class DraftRequestController {
         return ChangeRequestDtos.Response.from(drafts.edit(id,input.expectedVersion(),input.title(),input.description(),input.reason()));
     }
     @PostMapping("/{id}/submit")
-    public ChangeRequestDtos.Response submit(@PathVariable UUID id,@Valid @RequestBody ChangeRequestDtos.SubmitInput input) {
+    public ChangeRequestDtos.Response submit(@PathVariable UUID id,@Valid @RequestBody ChangeRequestDtos.TransitionInput input) {
         return ChangeRequestDtos.Response.from(drafts.submit(id,input.expectedVersion(),input.explanationText()));
     }
 }

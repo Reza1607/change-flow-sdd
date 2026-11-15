@@ -30,7 +30,7 @@ public record ChangeRequest(UUID id,String title,String description,String reaso
     private void requireOwner(UUID actor) {
         if(!requesterId.equals(actor)) throw new DraftRuleViolation(DraftRuleViolation.Code.FORBIDDEN,List.of());
     }
-    private static boolean blank(String value) {
+    static boolean blank(String value) {
         return value==null || value.codePoints().allMatch(cp->Character.isWhitespace(cp)||Character.isSpaceChar(cp));
     }
 }
