@@ -4,7 +4,7 @@
 
 ## وضعیت فعلی
 
-Setup (T001 تا T004) و Foundation (T005 تا T017) تکمیل شده‌اند؛ [گزارش Foundation و خروجی واقعی verify](specs/001-change-request-management/validation/foundation.md) ثبت شده است. endpoint احرازشدهٔ `/api/v1/csrf`، هویت و guard مجوز، Schema، نگاشت Entity و خطا/لاگ مشترک موجودند. US1 آغاز نشده و endpointهای درخواست تغییر هنوز پیاده نشده‌اند.
+Setup، Foundation و US1 (T018 تا T026) تکمیل شده‌اند؛ [گزارش US1 و خروجی واقعی verify](specs/001-change-request-management/validation/us1.md) شاهد checkpoint است. ایجاد Draft، ویرایش، Submit و مشاهدهٔ تکی با هویت Security Context، مجوز جاری، کنترل نسخه و Audit اتمیک موجودند. کار در checkpoint US1 متوقف شده است؛ مرحلهٔ بعد US2 از T027 است و آغاز نشده است.
 
 ## Stack
 
@@ -25,10 +25,10 @@ src/main/java/com/changeflow/
 ├── web/                      # Security، CSRF، Problem و no-store
 ├── identity/                 # ports، value types و adapterهای DB/guard
 └── changerequest/
-    ├── api/                  # فعلاً فقط package-info؛ endpointها در داستان‌ها
-    ├── application/          # ChangeRequestStore و AuditTrail؛ بدون adapter کسب‌وکار
-    ├── domain/               # فقط شکل داده و چهار status؛ بدون قواعد گردش کار
-    └── infrastructure/       # Entityها/نگاشت و filter لاگ
+    ├── api/                  # DTOهای مستقل و POST/PUT/Submit/GET تکی
+    ├── application/          # use caseهای Draft/Submit/GET، executor و Portها
+    ├── domain/               # مدل مستقل و قواعد ایجاد/ویرایش/Submit
+    └── infrastructure/       # Entity/نگاشت، ذخیره CAS، Audit، reader و لاگ
 src/main/resources/           # application.yaml، logback و Migration V1
 src/test/java/com/changeflow/
 .agents/skills/
@@ -74,7 +74,7 @@ unset CHANGEFLOW_DEV_PASSWORD
 
 ## نقش‌ها و گردش وضعیت
 
-رفتار مصوب برای داستان‌های بعدی؛ این endpointهای کسب‌وکار هنوز ساخته نشده‌اند.
+در US1، `POST /api/v1/change-requests`، `PUT /api/v1/change-requests/{id}`، `POST /api/v1/change-requests/{id}/submit` و `GET /api/v1/change-requests/{id}` پیاده شده‌اند. نمودار زیر رفتار مصوب محصول کامل است؛ Approve، RequestChanges، فهرست، تاریخچه و حذف هنوز endpoint ندارند.
 
 - **Requester:** ایجاد Draft، ویرایش درخواست خود فقط در Draft و ChangesRequested، Submit و حذف فقط Draft خود.
 - **Reviewer:** مشاهدهٔ PendingReviewها و Approve یا RequestChanges روی درخواست شخص دیگر؛ توضیح RequestChanges اجباری است.

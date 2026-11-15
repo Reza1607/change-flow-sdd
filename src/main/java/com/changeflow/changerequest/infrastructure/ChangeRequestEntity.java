@@ -21,4 +21,13 @@ class ChangeRequestEntity {
         return entity;
     }
     ChangeRequest toDomain() {return new ChangeRequest(id,title,description,reason,requesterId,status,version);}
+    boolean apply(ChangeRequest replacement) {
+        if(!id.equals(replacement.id()) || !requesterId.equals(replacement.requesterId()))
+            throw new IllegalArgumentException("Request identity is immutable");
+        boolean changed=!java.util.Objects.equals(title,replacement.title())
+            || !java.util.Objects.equals(description,replacement.description())
+            || !java.util.Objects.equals(reason,replacement.reason()) || status!=replacement.status();
+        title=replacement.title();description=replacement.description();reason=replacement.reason();status=replacement.status();
+        return changed;
+    }
 }

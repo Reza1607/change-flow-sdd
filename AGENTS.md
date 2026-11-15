@@ -40,7 +40,7 @@ Agent MUST به‌ترتیب بخواند؛ Constitution مرجع الزام‌�
 ## Build و Test
 
 مرجع دستورها: [Quickstart](specs/001-change-request-management/quickstart.md).
-`pom.xml` و Maven Wrapper از Setup موجودند. Build و تست با JDK 21 و Docker-compatible runtime فعال اجرا می‌شوند؛ نتیجهٔ Foundation باید از گزارش واقعی validation خوانده شود:
+`pom.xml` و Maven Wrapper از Setup موجودند. Build و تست با JDK 21 و Docker-compatible runtime فعال اجرا می‌شوند؛ نتیجهٔ US1 باید از [گزارش واقعی validation](specs/001-change-request-management/validation/us1.md) خوانده شود:
 
 ```bash
 ./mvnw verify
@@ -50,14 +50,14 @@ Agent MUST به‌ترتیب بخواند؛ Constitution مرجع الزام‌�
 
 ## ساختار Package و وابستگی
 
-پس از Foundation، ساختار واقعی زیر `com.changeflow` است؛ checkpoint در [گزارش Foundation](specs/001-change-request-management/validation/foundation.md) ثبت شده و Task بعدی T018 (US1) است:
+پس از Foundation و US1، ساختار واقعی زیر `com.changeflow` است؛ checkpoint در [گزارش US1](specs/001-change-request-management/validation/us1.md) ثبت شده و Task بعدی T027 (US2) است؛ US2 آغاز نشده است:
 
-- `changerequest.api`: فعلاً فقط package-info؛ endpointهای کسب‌وکار هنوز وجود ندارند.
-- `changerequest.application`: فقط Portهای `ChangeRequestStore` و `AuditTrail`؛ adapter آن‌ها در داستان‌ها ساخته می‌شود.
-- `changerequest.domain`: شکل دادهٔ `ChangeRequest`، `StatusHistoryEntry` و enum چهار وضعیت؛ قواعد ایجاد/ویرایش/گذار هنوز اضافه نشده‌اند.
-- `changerequest.infrastructure`: Entity و نگاشت دستی درخواست/تاریخچه و `RequestLoggingFilter`.
+- `changerequest.api`: Records ورودی/خروجی مستقل و Controllerهای POST/PUT/Submit/GET تکی، بدون قواعد کسب‌وکار.
+- `changerequest.application`: Portهای ذخیره/Audit/خواندن، DraftRequestService، RequestMutationExecutor و GetRequestService؛ هویت جاری و مرز تراکنش/guard.
+- `changerequest.domain`: مدل مستقل `ChangeRequest` با قواعد ایجاد/ویرایش/Submit، خطای دامنه، `StatusHistoryEntry` و enum چهار وضعیت.
+- `changerequest.infrastructure`: Entity/نگاشت دستی، JpaChangeRequestStore با CAS و @Version، JpaAuditTrail، JpaRequestReader با predicate مجوز و RequestLoggingFilter.
 - `identity.application / domain / infrastructure`: Portهای هویت و دسترسی، value typeها، حساب JPA، adapter هویت، guard تازه و writer داخلی نسخه‌دار نقش؛ بدون endpoint مدیریت کاربران.
-- `web`: Security wiring، CSRF endpoint، mapper خطا و no-store؛ composition root و Clock UTC در `ChangeFlowApplication`.
+- `web`: Security wiring، CSRF endpoint، JSON سخت‌گیرانه، mapper خطا و no-store؛ composition root و Clock UTC در `ChangeFlowApplication`.
 - resources: Migration V1، Hibernate validate و لاگ JSON؛ API/Persistence tests از PostgreSQL واقعی 17.12 استفاده می‌کنند.
 
 - وابستگی MUST به داخل باشد؛ domain MUST مستقل از Spring/JPA باشد؛ تزریق MUST با Constructor Injection انجام شود.

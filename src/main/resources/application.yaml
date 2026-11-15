@@ -25,6 +25,8 @@ logging:
     org.springframework.jdbc.core: INFO
     org.hibernate.SQL: "OFF"
     org.hibernate.orm.jdbc.bind: "OFF"
+    # PostgreSQL error details can contain the entire rejected business row.
+    org.hibernate.orm.jdbc.error: "OFF"
   structured:
     format:
       console: logstash
