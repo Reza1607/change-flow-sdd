@@ -1,0 +1,123 @@
+17.12: Pulling from library/postgres
+37fb86c2a767: Pulling fs layer
+e3f1858cb92e: Pulling fs layer
+8fb810914793: Pulling fs layer
+0364acb7b7f6: Pulling fs layer
+aa59ca706586: Pulling fs layer
+c18f3c4e97d4: Pulling fs layer
+27d6f21260a0: Pulling fs layer
+4abaab6950ec: Pulling fs layer
+3391d2c467d6: Pulling fs layer
+ed4bbee64e27: Pulling fs layer
+d1f2edaee96e: Pulling fs layer
+cdfe3ddb3b6b: Pulling fs layer
+aa59ca706586: Waiting
+09a57405bcb1: Pulling fs layer
+e3f1858cb92e: Download complete
+d678e0101545: Pulling fs layer
+3391d2c467d6: Waiting
+d678e0101545: Waiting
+c18f3c4e97d4: Waiting
+27d6f21260a0: Waiting
+ed4bbee64e27: Waiting
+4abaab6950ec: Waiting
+d1f2edaee96e: Waiting
+cdfe3ddb3b6b: Waiting
+09a57405bcb1: Waiting
+37fb86c2a767: Retrying in 15 seconds
+37fb86c2a767: Retrying in 14 seconds
+37fb86c2a767: Retrying in 13 seconds
+37fb86c2a767: Retrying in 12 seconds
+37fb86c2a767: Retrying in 11 seconds
+37fb86c2a767: Retrying in 10 seconds
+37fb86c2a767: Retrying in 9 seconds
+37fb86c2a767: Retrying in 8 seconds
+37fb86c2a767: Retrying in 7 seconds
+37fb86c2a767: Retrying in 6 seconds
+37fb86c2a767: Retrying in 5 seconds
+37fb86c2a767: Retrying in 4 seconds
+37fb86c2a767: Retrying in 3 seconds
+37fb86c2a767: Retrying in 2 seconds
+37fb86c2a767: Retrying in 1 second
+37fb86c2a767: Retrying in 20 seconds
+37fb86c2a767: Retrying in 19 seconds
+37fb86c2a767: Retrying in 18 seconds
+37fb86c2a767: Retrying in 17 seconds
+37fb86c2a767: Retrying in 16 seconds
+37fb86c2a767: Retrying in 15 seconds
+37fb86c2a767: Retrying in 14 seconds
+37fb86c2a767: Retrying in 13 seconds
+37fb86c2a767: Retrying in 12 seconds
+37fb86c2a767: Retrying in 11 seconds
+37fb86c2a767: Retrying in 10 seconds
+37fb86c2a767: Retrying in 9 seconds
+37fb86c2a767: Retrying in 8 seconds
+37fb86c2a767: Retrying in 7 seconds
+37fb86c2a767: Retrying in 6 seconds
+37fb86c2a767: Retrying in 5 seconds
+37fb86c2a767: Retrying in 4 seconds
+37fb86c2a767: Retrying in 3 seconds
+37fb86c2a767: Retrying in 2 seconds
+37fb86c2a767: Retrying in 1 second
+aa59ca706586: Verifying Checksum
+aa59ca706586: Download complete
+c18f3c4e97d4: Verifying Checksum
+c18f3c4e97d4: Download complete
+27d6f21260a0: Verifying Checksum
+27d6f21260a0: Download complete
+4abaab6950ec: Verifying Checksum
+4abaab6950ec: Download complete
+8fb810914793: Retrying in 5 seconds
+8fb810914793: Retrying in 4 seconds
+8fb810914793: Retrying in 3 seconds
+0364acb7b7f6: Retrying in 5 seconds
+8fb810914793: Retrying in 2 seconds
+0364acb7b7f6: Retrying in 4 seconds
+8fb810914793: Retrying in 1 second
+0364acb7b7f6: Retrying in 3 seconds
+0364acb7b7f6: Retrying in 2 seconds
+0364acb7b7f6: Retrying in 1 second
+8fb810914793: Verifying Checksum
+8fb810914793: Download complete
+0364acb7b7f6: Verifying Checksum
+0364acb7b7f6: Download complete
+d1f2edaee96e: Verifying Checksum
+d1f2edaee96e: Download complete
+ed4bbee64e27: Verifying Checksum
+ed4bbee64e27: Download complete
+cdfe3ddb3b6b: Verifying Checksum
+cdfe3ddb3b6b: Download complete
+09a57405bcb1: Verifying Checksum
+09a57405bcb1: Download complete
+d678e0101545: Verifying Checksum
+d678e0101545: Download complete
+3391d2c467d6: Retrying in 5 seconds
+3391d2c467d6: Retrying in 4 seconds
+3391d2c467d6: Retrying in 3 seconds
+3391d2c467d6: Retrying in 2 seconds
+3391d2c467d6: Retrying in 1 second
+3391d2c467d6: Retrying in 10 seconds
+3391d2c467d6: Retrying in 9 seconds
+3391d2c467d6: Retrying in 8 seconds
+3391d2c467d6: Retrying in 7 seconds
+3391d2c467d6: Retrying in 6 seconds
+3391d2c467d6: Retrying in 5 seconds
+3391d2c467d6: Retrying in 4 seconds
+3391d2c467d6: Retrying in 3 seconds
+3391d2c467d6: Retrying in 2 seconds
+3391d2c467d6: Retrying in 1 second
+3391d2c467d6: Retrying in 15 seconds
+3391d2c467d6: Retrying in 14 seconds
+3391d2c467d6: Retrying in 13 seconds
+3391d2c467d6: Retrying in 12 seconds
+3391d2c467d6: Retrying in 11 seconds
+3391d2c467d6: Retrying in 10 seconds
+3391d2c467d6: Retrying in 9 seconds
+3391d2c467d6: Retrying in 8 seconds
+3391d2c467d6: Retrying in 7 seconds
+3391d2c467d6: Retrying in 6 seconds
+3391d2c467d6: Retrying in 5 seconds
+3391d2c467d6: Retrying in 4 seconds
+3391d2c467d6: Retrying in 3 seconds
+3391d2c467d6: Retrying in 2 seconds
+3391d2c467d6: Retrying in 1 second

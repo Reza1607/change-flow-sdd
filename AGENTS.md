@@ -40,22 +40,26 @@ Agent MUST به‌ترتیب بخواند؛ Constitution مرجع الزام‌�
 ## Build و Test
 
 مرجع دستورها: [Quickstart](specs/001-change-request-management/quickstart.md).
-اکنون pom.xml و Maven Wrapper وجود ندارند؛ مسیر Build/Test «پس از Foundation تکمیل می‌شود».
-دستورهای زیر فعلاً قابل اجرا نیستند و برای **پس از Implement** هستند:
+`pom.xml` و Maven Wrapper از Setup موجودند. Build و تست با JDK 21 و Docker-compatible runtime فعال اجرا می‌شوند؛ نتیجهٔ Foundation باید از گزارش واقعی validation خوانده شود:
 
 ```bash
 ./mvnw verify
-./mvnw spring-boot:test-run -Dspring-boot.run.profiles=dev
 ```
 
-اجرای dev MUST پیش‌نیازها و secret محلی Quickstart را داشته باشد؛ Agent MUST NOT رمز ثابت بسازد.
+اجرای `./mvnw spring-boot:test-run -Dspring-boot.run.profiles=dev` هنوز آماده نیست؛ bootstrap و provision محیط dev متعلق به T058 است. اجرای dev MUST پیش‌نیازها و secret محلی Quickstart را داشته باشد؛ Agent MUST NOT رمز ثابت بسازد.
 
 ## ساختار Package و وابستگی
 
-ساختار برنامه‌ریزی‌شده زیر `com.changeflow` است؛ هنوز کد ایجاد نشده است:
-- `changerequest.api / application / domain / infrastructure`: DTO/Controller، use case/Port، قواعد، adapterهای داده/Audit.
-- `identity.application / domain / infrastructure`: قرارداد هویت و مجوز، نوع‌های هویت، adapterهای DB.
-- `web`: Composition Root، Problem Details، Security wiring و CSRF endpoint.
+پس از Foundation، ساختار واقعی زیر `com.changeflow` است؛ checkpoint در [گزارش Foundation](specs/001-change-request-management/validation/foundation.md) ثبت شده و Task بعدی T018 (US1) است:
+
+- `changerequest.api`: فعلاً فقط package-info؛ endpointهای کسب‌وکار هنوز وجود ندارند.
+- `changerequest.application`: فقط Portهای `ChangeRequestStore` و `AuditTrail`؛ adapter آن‌ها در داستان‌ها ساخته می‌شود.
+- `changerequest.domain`: شکل دادهٔ `ChangeRequest`، `StatusHistoryEntry` و enum چهار وضعیت؛ قواعد ایجاد/ویرایش/گذار هنوز اضافه نشده‌اند.
+- `changerequest.infrastructure`: Entity و نگاشت دستی درخواست/تاریخچه و `RequestLoggingFilter`.
+- `identity.application / domain / infrastructure`: Portهای هویت و دسترسی، value typeها، حساب JPA، adapter هویت، guard تازه و writer داخلی نسخه‌دار نقش؛ بدون endpoint مدیریت کاربران.
+- `web`: Security wiring، CSRF endpoint، mapper خطا و no-store؛ composition root و Clock UTC در `ChangeFlowApplication`.
+- resources: Migration V1، Hibernate validate و لاگ JSON؛ API/Persistence tests از PostgreSQL واقعی 17.12 استفاده می‌کنند.
+
 - وابستگی MUST به داخل باشد؛ domain MUST مستقل از Spring/JPA باشد؛ تزریق MUST با Constructor Injection انجام شود.
 - featureها MUST NOT به `com.changeflow.web` وابسته باشند؛ root وب برای wiring و نگاشت خطا به لایه‌های داخلی وابسته می‌شود.
 - ترتیب کار MUST طبق جدول وابستگی و checkpointها در [tasks.md](specs/001-change-request-management/tasks.md) باشد.

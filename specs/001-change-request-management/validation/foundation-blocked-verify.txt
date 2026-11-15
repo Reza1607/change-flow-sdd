@@ -1,0 +1,246 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.changeflow:change-flow >---------------------
+[INFO] Building Change Flow 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ change-flow ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ change-flow ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ change-flow ---
+[INFO] skip non existing resourceDirectory /srv/projects/ai/sdd-train/change-flow/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ change-flow ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ change-flow ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.changeflow.web.SetupConfigurationTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.266 s -- in com.changeflow.web.SetupConfigurationTest
+[INFO] Running com.changeflow.web.NoStoreFilterTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.587 s -- in com.changeflow.web.NoStoreFilterTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ change-flow ---
+[INFO] 
+[INFO] --- spring-boot:4.0.9:repackage (repackage) @ change-flow ---
+[INFO] Replacing main artifact /srv/projects/ai/sdd-train/change-flow/target/change-flow-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /srv/projects/ai/sdd-train/change-flow/target/change-flow-0.0.1-SNAPSHOT.jar.original
+[INFO] 
+[INFO] --- failsafe:3.5.6:integration-test (default) @ change-flow ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.changeflow.support.PostgresConnectionIT
+18:25:29.904 [main] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+18:25:29.909 [main] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+18:25:29.941 [main] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 2.0.5
+18:25:30.690 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with Environment variables, system properties and defaults. Resolved dockerHost=unix:///var/run/docker.sock
+18:25:30.693 [main] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+18:25:30.715 [main] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+  Server Version: 29.0.1
+  API Version: 1.52
+  Operating System: Ubuntu 26.10
+  Total Memory: 15350 MB
+18:25:30.774 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Pulling docker image: testcontainers/ryuk:0.14.0. Please be patient; this may take some time but only needs to be done once.
+18:25:38.074 [docker-java-stream--535875118] INFO tc.testcontainers/ryuk:0.14.0 -- Starting to pull image
+18:25:38.106 [docker-java-stream--535875118] INFO tc.testcontainers/ryuk:0.14.0 -- Pulling image layers:  0 pending,  0 downloaded,  0 extracted, (0 bytes/0 bytes)
+18:25:42.581 [docker-java-stream--535875118] INFO tc.testcontainers/ryuk:0.14.0 -- Pulling image layers:  1 pending,  1 downloaded,  0 extracted, (211 KB/? MB)
+18:25:52.065 [docker-java-stream--535875118] INFO tc.testcontainers/ryuk:0.14.0 -- Pulling image layers:  1 pending,  1 downloaded,  1 extracted, (402 KB/? MB)
+18:26:22.065 [testcontainers-pull-watchdog-1] ERROR tc.testcontainers/ryuk:0.14.0 -- Docker image pull has not made progress in 30s - aborting pull
+18:26:22.066 [main] WARN tc.testcontainers/ryuk:0.14.0 -- Retrying pull for image: testcontainers/ryuk:0.14.0 (68s remaining)
+18:26:22.066 [docker-java-stream--535875118] INFO tc.testcontainers/ryuk:0.14.0 -- Pull complete. 2 layers, pulled in 43s (downloaded 402 KB at 9 KB/s)
+18:26:32.841 [docker-java-stream--535875118] INFO tc.testcontainers/ryuk:0.14.0 -- Starting to pull image
+18:26:32.844 [docker-java-stream--535875118] INFO tc.testcontainers/ryuk:0.14.0 -- Pulling image layers:  0 pending,  0 downloaded,  0 extracted, (0 bytes/0 bytes)
+18:26:36.621 [docker-java-stream--535875118] INFO tc.testcontainers/ryuk:0.14.0 -- Pulling image layers:  1 pending,  1 downloaded,  0 extracted, (2 MB/? MB)
+18:26:37.394 [docker-java-stream--535875118] INFO tc.testcontainers/ryuk:0.14.0 -- Pulling image layers:  0 pending,  2 downloaded,  0 extracted, (2 MB/2 MB)
+18:26:38.316 [docker-java-stream--535875118] INFO tc.testcontainers/ryuk:0.14.0 -- Pulling image layers:  0 pending,  2 downloaded,  1 extracted, (2 MB/2 MB)
+18:26:40.618 [docker-java-stream--535875118] INFO tc.testcontainers/ryuk:0.14.0 -- Pulling image layers:  0 pending,  2 downloaded,  2 extracted, (2 MB/2 MB)
+18:26:41.676 [docker-java-stream--535875118] INFO tc.testcontainers/ryuk:0.14.0 -- Pull complete. 2 layers, pulled in 8s (downloaded 2 MB at 293 KB/s)
+18:26:41.676 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Image testcontainers/ryuk:0.14.0 pull took PT1M10.902090547S
+18:26:41.793 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Creating container for image: testcontainers/ryuk:0.14.0
+18:26:45.627 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 is starting: 2474d335ed4f988323f9628d5f0bd1c76c4686f29ffee85654e5451b5c14117c
+18:26:47.341 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 started in PT5.548706634S
+18:26:47.346 [main] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+18:26:47.347 [main] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+18:26:47.347 [main] INFO org.testcontainers.DockerClientFactory -- ✔︎ Docker server version should be at least 1.6.0
+18:26:47.350 [main] INFO tc.postgres:17.12 -- Pulling docker image: postgres:17.12. Please be patient; this may take some time but only needs to be done once.
+18:26:52.892 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Starting to pull image
+18:26:52.893 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  0 pending,  0 downloaded,  0 extracted, (0 bytes/0 bytes)
+18:26:57.910 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers: 13 pending,  1 downloaded,  0 extracted, (28 MB/? MB)
+18:27:09.070 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers: 12 pending,  2 downloaded,  0 extracted, (29 MB/? MB)
+18:27:25.114 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers: 11 pending,  3 downloaded,  0 extracted, (38 MB/? MB)
+18:27:30.269 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers: 10 pending,  4 downloaded,  0 extracted, (44 MB/? MB)
+18:27:30.385 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  9 pending,  5 downloaded,  0 extracted, (44 MB/? MB)
+18:27:30.993 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  8 pending,  6 downloaded,  0 extracted, (44 MB/? MB)
+18:27:31.422 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  7 pending,  7 downloaded,  0 extracted, (44 MB/? MB)
+18:27:52.002 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  6 pending,  8 downloaded,  0 extracted, (159 MB/? MB)
+18:27:53.155 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  5 pending,  9 downloaded,  0 extracted, (159 MB/? MB)
+18:27:55.321 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  4 pending, 10 downloaded,  0 extracted, (159 MB/? MB)
+18:27:58.290 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  3 pending, 11 downloaded,  0 extracted, (159 MB/? MB)
+18:28:00.769 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  2 pending, 12 downloaded,  0 extracted, (159 MB/? MB)
+18:28:30.769 [testcontainers-pull-watchdog-2] ERROR tc.postgres:17.12 -- Docker image pull has not made progress in 30s - aborting pull
+18:28:30.770 [main] WARN tc.postgres:17.12 -- Retrying pull for image: postgres:17.12 (16s remaining)
+18:28:30.770 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pull complete. 14 layers, pulled in 97s (downloaded 159 MB at 1 MB/s)
+18:28:42.889 [docker-java-stream--352603567] ERROR com.github.dockerjava.api.async.ResultCallbackTemplate -- Error during callback
+com.github.dockerjava.api.exception.InternalServerErrorException: Status 500: {"message":"Head \"https://registry-1.docker.io/v2/library/postgres/manifests/17.12\": Get \"https://auth.docker.io/token?account=reza1607&scope=repository%3Alibrary%2Fpostgres%3Apull&service=registry.docker.io\": net/http: TLS handshake timeout"}
+
+	at org.testcontainers.shaded.com.github.dockerjava.core.DefaultInvocationBuilder.execute(DefaultInvocationBuilder.java:247)
+	at org.testcontainers.shaded.com.github.dockerjava.core.DefaultInvocationBuilder.lambda$executeAndStream$1(DefaultInvocationBuilder.java:269)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+18:28:42.895 [main] WARN tc.postgres:17.12 -- Retrying pull for image: postgres:17.12 (4s remaining)
+18:28:44.959 [docker-java-stream--352603567] ERROR com.github.dockerjava.api.async.ResultCallbackTemplate -- Error during callback
+com.github.dockerjava.api.exception.InternalServerErrorException: Status 500: {"message":"Head \"https://registry-1.docker.io/v2/library/postgres/manifests/17.12\": unable to decode token response: read tcp 172.19.24.138:51364->104.18.43.178:443: read: connection reset by peer"}
+
+	at org.testcontainers.shaded.com.github.dockerjava.core.DefaultInvocationBuilder.execute(DefaultInvocationBuilder.java:247)
+	at org.testcontainers.shaded.com.github.dockerjava.core.DefaultInvocationBuilder.lambda$executeAndStream$1(DefaultInvocationBuilder.java:269)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+18:28:44.960 [main] WARN tc.postgres:17.12 -- Retrying pull for image: postgres:17.12 (2s remaining)
+18:28:48.516 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Starting to pull image
+18:28:48.518 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  0 pending,  0 downloaded,  0 extracted, (0 bytes/0 bytes)
+18:28:49.376 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers: 13 pending,  1 downloaded,  0 extracted, (1 KB/? MB)
+18:30:24.792 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers: 12 pending,  2 downloaded,  0 extracted, (39 MB/? MB)
+18:30:28.558 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers: 11 pending,  3 downloaded,  0 extracted, (40 MB/? MB)
+18:30:29.678 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers: 10 pending,  4 downloaded,  0 extracted, (40 MB/? MB)
+18:30:31.795 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  9 pending,  5 downloaded,  0 extracted, (40 MB/? MB)
+18:31:09.263 [testcontainers-pull-watchdog-3] ERROR tc.postgres:17.12 -- Docker image pull has not made progress in 30s - aborting pull
+18:31:09.263 [main] WARN tc.postgres:17.12 -- Retrying pull for image: postgres:17.12 (-142s remaining)
+18:31:09.263 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pull complete. 14 layers, pulled in 140s (downloaded 48 MB at 352 KB/s)
+18:31:10.077 [main] INFO tc.postgres:17.12 -- Pulling docker image: postgres:17.12. Please be patient; this may take some time but only needs to be done once.
+18:31:13.725 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Starting to pull image
+18:31:13.726 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  0 pending,  0 downloaded,  0 extracted, (0 bytes/0 bytes)
+18:31:13.743 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers: 12 pending,  1 downloaded,  0 extracted, (3 MB/? MB)
+18:31:13.744 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers: 12 pending,  2 downloaded,  0 extracted, (3 MB/? MB)
+18:31:13.745 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers: 11 pending,  3 downloaded,  0 extracted, (10 MB/? MB)
+18:31:13.745 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers: 10 pending,  4 downloaded,  0 extracted, (10 MB/? MB)
+18:31:51.488 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  9 pending,  5 downloaded,  0 extracted, (14 MB/? MB)
+18:31:51.922 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  8 pending,  6 downloaded,  0 extracted, (14 MB/? MB)
+18:31:53.083 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  7 pending,  7 downloaded,  0 extracted, (14 MB/? MB)
+18:31:54.722 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  6 pending,  8 downloaded,  0 extracted, (14 MB/? MB)
+18:31:55.186 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  5 pending,  9 downloaded,  0 extracted, (14 MB/? MB)
+18:31:55.693 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  4 pending, 10 downloaded,  0 extracted, (14 MB/? MB)
+18:31:56.073 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  3 pending, 11 downloaded,  0 extracted, (14 MB/? MB)
+18:31:58.237 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  2 pending, 12 downloaded,  0 extracted, (14 MB/? MB)
+18:32:32.692 [testcontainers-pull-watchdog-4] ERROR tc.postgres:17.12 -- Docker image pull has not made progress in 30s - aborting pull
+18:32:32.693 [main] WARN tc.postgres:17.12 -- Retrying pull for image: postgres:17.12 (37s remaining)
+18:32:32.693 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pull complete. 14 layers, pulled in 78s (downloaded 19 MB at 261 KB/s)
+18:32:36.053 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Starting to pull image
+18:32:36.054 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  0 pending,  0 downloaded,  0 extracted, (0 bytes/0 bytes)
+18:32:36.067 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers: 13 pending,  1 downloaded,  0 extracted, (0 bytes/? MB)
+18:32:36.068 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers: 12 pending,  2 downloaded,  0 extracted, (7 MB/? MB)
+18:32:36.069 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers: 11 pending,  3 downloaded,  0 extracted, (7 MB/? MB)
+18:32:36.070 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers: 10 pending,  4 downloaded,  0 extracted, (7 MB/? MB)
+18:32:36.071 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  9 pending,  5 downloaded,  0 extracted, (7 MB/? MB)
+18:32:39.191 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  8 pending,  6 downloaded,  0 extracted, (7 MB/? MB)
+18:32:57.296 [docker-java-stream--352603567] INFO tc.postgres:17.12 -- Pulling image layers:  7 pending,  7 downloaded,  0 extracted, (14 MB/? MB)
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- failsafe:3.5.6:verify (default) @ change-flow ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  09:24 min
+[INFO] Finished at: 2026-11-14T18:34:45+03:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-failsafe-plugin:3.5.6:verify (default) on project change-flow: 
+[ERROR] 
+[ERROR] See /srv/projects/ai/sdd-train/change-flow/target/failsafe-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] The forked VM terminated without properly saying goodbye. VM crash or System.exit called?
+[ERROR] Command was /bin/sh -c cd '/srv/projects/ai/sdd-train/change-flow' && '/usr/lib/jvm/java-21-openjdk-amd64/bin/java' '-jar' '/srv/projects/ai/sdd-train/change-flow/target/surefire/surefirebooter-20261114182528598_3.jar' '/srv/projects/ai/sdd-train/change-flow/target/surefire' '2026-11-14T18-25-28_546-jvmRun1' 'surefire-20261114182528598_1tmp' 'surefire_0-20261114182528598_2tmp'
+[ERROR] Error occurred in starting fork, check output in log
+[ERROR] Process Exit Code: 143
+[ERROR] 	at org.apache.maven.plugin.surefire.booterclient.ForkStarter.fork(ForkStarter.java:643)
+[ERROR] 	at org.apache.maven.plugin.surefire.booterclient.ForkStarter.run(ForkStarter.java:285)
+[ERROR] 	at org.apache.maven.plugin.surefire.booterclient.ForkStarter.run(ForkStarter.java:250)
+[ERROR] 	at org.apache.maven.plugin.surefire.AbstractSurefireMojo.executeProvider(AbstractSurefireMojo.java:1356)
+[ERROR] 	at org.apache.maven.plugin.surefire.AbstractSurefireMojo.executeAfterPreconditionsChecked(AbstractSurefireMojo.java:1154)
+[ERROR] 	at org.apache.maven.plugin.surefire.AbstractSurefireMojo.execute(AbstractSurefireMojo.java:988)
+[ERROR] 	at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:126)
+[ERROR] 	at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2(MojoExecutor.java:328)
+[ERROR] 	at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute(MojoExecutor.java:316)
+[ERROR] 	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:212)
+[ERROR] 	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:174)
+[ERROR] 	at org.apache.maven.lifecycle.internal.MojoExecutor.access$000(MojoExecutor.java:75)
+[ERROR] 	at org.apache.maven.lifecycle.internal.MojoExecutor$1.run(MojoExecutor.java:162)
+[ERROR] 	at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute(DefaultMojosExecutionStrategy.java:39)
+[ERROR] 	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:159)
+[ERROR] 	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:105)
+[ERROR] 	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:73)
+[ERROR] 	at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build(SingleThreadedBuilder.java:53)
+[ERROR] 	at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:118)
+[ERROR] 	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:261)
+[ERROR] 	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:173)
+[ERROR] 	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:101)
+[ERROR] 	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:919)
+[ERROR] 	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:285)
+[ERROR] 	at org.apache.maven.cli.MavenCli.main(MavenCli.java:207)
+[ERROR] 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+[ERROR] 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+[ERROR] 	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:255)
+[ERROR] 	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:201)
+[ERROR] 	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:362)
+[ERROR] 	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:314)
+[ERROR] 
+[ERROR] org.apache.maven.surefire.booter.SurefireBooterForkException: The forked VM terminated without properly saying goodbye. VM crash or System.exit called?
+[ERROR] Command was /bin/sh -c cd '/srv/projects/ai/sdd-train/change-flow' && '/usr/lib/jvm/java-21-openjdk-amd64/bin/java' '-jar' '/srv/projects/ai/sdd-train/change-flow/target/surefire/surefirebooter-20261114182528598_3.jar' '/srv/projects/ai/sdd-train/change-flow/target/surefire' '2026-11-14T18-25-28_546-jvmRun1' 'surefire-20261114182528598_1tmp' 'surefire_0-20261114182528598_2tmp'
+[ERROR] Error occurred in starting fork, check output in log
+[ERROR] Process Exit Code: 143
+[ERROR] 	at org.apache.maven.plugin.surefire.booterclient.ForkStarter.fork(ForkStarter.java:643)
+[ERROR] 	at org.apache.maven.plugin.surefire.booterclient.ForkStarter.run(ForkStarter.java:285)
+[ERROR] 	at org.apache.maven.plugin.surefire.booterclient.ForkStarter.run(ForkStarter.java:250)
+[ERROR] 	at org.apache.maven.plugin.surefire.AbstractSurefireMojo.executeProvider(AbstractSurefireMojo.java:1356)
+[ERROR] 	at org.apache.maven.plugin.surefire.AbstractSurefireMojo.executeAfterPreconditionsChecked(AbstractSurefireMojo.java:1154)
+[ERROR] 	at org.apache.maven.plugin.surefire.AbstractSurefireMojo.execute(AbstractSurefireMojo.java:988)
+[ERROR] 	at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:126)
+[ERROR] 	at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2(MojoExecutor.java:328)
+[ERROR] 	at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute(MojoExecutor.java:316)
+[ERROR] 	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:212)
+[ERROR] 	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:174)
+[ERROR] 	at org.apache.maven.lifecycle.internal.MojoExecutor.access$000(MojoExecutor.java:75)
+[ERROR] 	at org.apache.maven.lifecycle.internal.MojoExecutor$1.run(MojoExecutor.java:162)
+[ERROR] 	at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute(DefaultMojosExecutionStrategy.java:39)
+[ERROR] 	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:159)
+[ERROR] 	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:105)
+[ERROR] 	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:73)
+[ERROR] 	at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build(SingleThreadedBuilder.java:53)
+[ERROR] 	at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:118)
+[ERROR] 	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:261)
+[ERROR] 	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:173)
+[ERROR] 	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:101)
+[ERROR] 	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:919)
+[ERROR] 	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:285)
+[ERROR] 	at org.apache.maven.cli.MavenCli.main(MavenCli.java:207)
+[ERROR] 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+[ERROR] 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+[ERROR] 	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:255)
+[ERROR] 	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:201)
+[ERROR] 	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:362)
+[ERROR] 	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:314)
+[ERROR] 
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
