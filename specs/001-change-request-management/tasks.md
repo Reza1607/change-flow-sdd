@@ -2,11 +2,11 @@
 
 **Input**: [Spec](spec.md)، [Plan](plan.md)، [Research](research.md)، [Data Model](data-model.md)، [OpenAPI](contracts/openapi.yaml)، [API semantics](contracts/semantics.md)، [Quickstart](quickstart.md) و Constitution 1.0.0.
 
-**Prerequisites**: طراحی آماده است؛ پیش از نوشتن کد، تأیید Spec، Plan و Tasks طبق Constitution بررسی شود. فرض‌های A-001 تا A-006 در `docs/assumptions.md` قابل بازبینی‌اند. فرمان Tasks به‌تنهایی به معنی اجرای پیاده‌سازی یا تأیید خودکار اسناد نیست.
+**Prerequisites**: طراحی آماده است؛ پیش از نوشتن کد، تأیید Spec، Plan و Tasks طبق Constitution بررسی شود. فرض‌های A-001 تا A-007 در `docs/assumptions.md` قابل بازبینی‌اند. فرمان Tasks به‌تنهایی به معنی اجرای پیاده‌سازی یا تأیید خودکار اسناد نیست.
 
 **Tests**: به الزام Constitution بخش ۷ و معیارهای پذیرش Spec، تست الزامی است. برای قواعد دامنه، ابتدا تست نوشته و شکست معنادار آن ثبت، سپس کد پیاده‌سازی و تست سبز شود؛ صرف خطای compile شاهد کافی رفتار نیست. هیچ Task بدون تست مرتبط یا بررسی مستنداتی قابل‌تکرار Done نیست.
 
-**Organization**: اول Setup و Foundation؛ سپس P1ها به ترتیب US1، US2، US5 و P2ها به ترتیب US3، US4؛ شمارهٔ US مطابق Spec حفظ می‌شود. این سند فقط کارها را تعریف می‌کند و همهٔ checkboxها باز می‌مانند.
+**Organization**: اول Setup و Foundation؛ سپس P1ها به ترتیب US1، US2، US5 و P2ها به ترتیب US3، US4؛ شمارهٔ US مطابق Spec حفظ می‌شود. وضعیت checkboxها فقط با شواهد واقعی به‌روز می‌شود؛ پذیرش انسانی T061 جدا از تکمیل فنی باقی می‌ماند.
 
 ## Format: `[ID] [P?] [Story] Description`
 
@@ -180,11 +180,11 @@
 
 - [ ] T061 ۵ کارمند و Reviewer دیگر باید SC-006 را با چرخهٔ واقعی انجام دهند و دلیل بازگشت را شناسایی کنند؛ نتیجهٔ واقعی و تعداد موفقیت در `specs/001-change-request-management/validation/acceptance.md` ثبت شود؛ تا حضور افراد و اجرای واقعی، این Task باز بماند و نتیجه جعل یا با تست خودکار جایگزین نشود (SC-006، AS-11، AS-13).
 
-- [ ] T062 README و راهنمای اجرا را با `specs/001-change-request-management/quickstart.md` تطبیق دهید، فرض‌های A-001 تا A-006 در `docs/assumptions.md` را بازبینی و ADRهای `docs/decisions/001-runtime-and-storage.md`، `002-identity-and-live-authorization.md` و `003-concurrency-and-audit.md` را مطابق نتیجهٔ واقعی تکمیل کنید؛ هیچ رفتار تازه بدون اصلاح Spec اضافه نشود؛ لینک‌ها و سازگاری بررسی شوند (FR-014، FR-015، FR-020، FR-021؛ Constitution بخش ۱ و ۸).
+- [X] T062 README، AGENTS و راهنمای اجرا را با `specs/001-change-request-management/quickstart.md` تطبیق دهید، فرض‌های A-001 تا A-007 در `docs/assumptions.md` را بازبینی و ADRهای `docs/decisions/001-runtime-and-storage.md`، `002-identity-and-live-authorization.md` و `003-concurrency-and-audit.md` را مطابق نتیجهٔ واقعی تکمیل کنید؛ هیچ رفتار تازه بدون اصلاح Spec اضافه نشود؛ لینک‌ها و سازگاری بررسی شوند (FR-014، FR-015، FR-020، FR-021؛ Constitution بخش ۱ و ۸).
 
-- [ ] T063 Quickstart را از محیط تمیز اجرا و `./mvnw verify` کامل را پس از ادغام همهٔ داستان‌ها انجام دهید؛ نتیجه، شمار اجرای race، schema migration، privacy/architecture و قیود بدون mock DB در `specs/001-change-request-management/validation/final.md` ثبت شود؛ failureها قبل از Done رفع و SC-006 جدا ارجاع داده شود (SC-001، SC-002، SC-003، SC-004، SC-005).
+- [X] T063 Quickstart را از محیط تمیز اجرا و `./mvnw verify` کامل را پس از ادغام همهٔ داستان‌ها انجام دهید؛ نتیجه، شمار اجرای race، schema migration، privacy/architecture و قیود بدون mock DB در `specs/001-change-request-management/validation/final.md` ثبت شود؛ failureها قبل از Done رفع و SC-006 جدا ارجاع داده شود (SC-001، SC-002، SC-003، SC-004، SC-005).
 
-- [ ] T064 ممیزی نهایی ردیابی FR-001 تا FR-021 و AS-01 تا AS-23 و DoD را در `specs/001-change-request-management/tasks.md` و `validation/final.md` ثبت کنید؛ فقط کارهای واقعاً انجام‌شده و تست‌دار تیک بخورند؛ Spec برآورده، تست‌ها سبز، فرض‌ها و مستندات به‌روز؛ پذیرش انسانی باز مانده باشد، completion کامل گزارش نشود (SC-001 تا SC-006؛ Constitution بخش ۹).
+- [X] T064 ممیزی نهایی ردیابی FR-001 تا FR-021 و AS-01 تا AS-23 و DoD را در `specs/001-change-request-management/tasks.md` و `validation/final.md` ثبت کنید؛ فقط کارهای واقعاً انجام‌شده و تست‌دار تیک بخورند؛ Spec برآورده، تست‌ها سبز، فرض‌ها و مستندات به‌روز؛ پذیرش انسانی باز مانده باشد، completion کامل گزارش نشود (SC-001 تا SC-006؛ Constitution بخش ۹).
 
 
 ## Dependencies & Execution Order
@@ -279,3 +279,40 @@ Setup + Foundation + US1 یک MVP قابل نمایشِ آماده‌سازی و
 ### Definition of Done
 
 هر checkbox تنها با تحقق رفتار، تست مرتبط سبز و مستندات سازگار تیک می‌خورد. اعداد T/FR/AS بدون تغییر شناسه حفظ شوند. A-006 هنوز «قابل بازبینی» است؛ اگر معنای لغو از intent موردنظر شد، ابتدا Spec/Plan/ADR اصلاح و سپس Task مربوط بازنویسی شود. Task T061 وابسته به مشارکت واقعی افراد است؛ نبود افراد مجوز ساخت شاهد پذیرش نیست.
+
+
+## ممیزی پایانی T062 تا T064 — 2026-11-16
+
+وضعیت اعلام‌شده: **کامل از نظر فنی، پذیرش انسانی SC-006 باز**. T061 باز می‌ماند؛ ممیزی فنی یا smoke خودکار جایگزین ۵ کارمند واقعی نیست و DoD کل پروژه بسته اعلام نمی‌شود.
+
+دامنهٔ اجرای T062 مطابق دستور فعلی شامل README، AGENTS، Quickstart و بازبینی A-001 تا A-007 بود. به دستور صریح کاربر، Spec، قراردادها و متن ADRها محفوظ ماندند؛ نتیجهٔ بازبینی ADRها و کمبود دلیل مستقل CSRF در ADR-002 در final.md گزارش شد. توضیح بی‌مصداق T042 از قبل در همین فایل و validation/us3.md موجود است و دوباره تغییر نکرد.
+
+[گزارش کامل، خروج واقعی clean verify، شمار raceها و DoD](validation/final.md) مرجع این ممیزی است. ردیابی زیر عطف‌های صریح AS→FR در Spec را ثبت می‌کند؛ methodهای دقیق و حدود پوشش در جدول‌های کامل final.md آمده‌اند و با XML همین اجرا تطبیق داده شدند.
+
+| FR | ASهای مرتبط در متن Spec | شاهد خودکار / نتیجهٔ ممیزی |
+| --- | --- | --- |
+| [FR-001](validation/final.md) | AS-01 | DraftFlowIT؛ شاهد اجراشده موجود |
+| [FR-002](validation/final.md) | AS-01 | DraftFlowIT, SecurityIT؛ شاهد اجراشده موجود |
+| [FR-003](validation/final.md) | AS-02, AS-13 | DraftFlowIT, CorrectionSafetyIT؛ شاهد اجراشده موجود |
+| [FR-004](validation/final.md) | AS-03, AS-04 | DraftFlowIT؛ شاهد اجراشده موجود |
+| [FR-005](validation/final.md) | AS-05 | DraftFlowIT؛ شاهد اجراشده موجود |
+| [FR-006](validation/final.md) | AS-06 | ApprovalIT؛ شاهد اجراشده موجود |
+| [FR-007](validation/final.md) | AS-07, AS-15 | ApprovalIT؛ شاهد اجراشده موجود |
+| [FR-008](validation/final.md) | AS-08, AS-16 | DeleteDraftIT؛ شاهد اجراشده موجود |
+| [FR-009](validation/final.md) | AS-11, AS-12 | RequestChangesIT, ResubmissionIT؛ شاهد اجراشده موجود |
+| [FR-010](validation/final.md) | AS-13 | ResubmissionIT؛ شاهد اجراشده موجود |
+| [FR-011](validation/final.md) | AS-08, AS-09 | TransitionRulesTest, ApprovalIT؛ شاهد اجراشده موجود |
+| [FR-012](validation/final.md) | AS-14 | VisibilityMatrixIT؛ شاهد اجراشده موجود |
+| [FR-013](validation/final.md) | AS-15 | VisibilityMatrixIT, GetRequestIT؛ شاهد اجراشده موجود |
+| [FR-014](validation/final.md) | AS-17, AS-22 | InFlightRevocationIT, CorrectionSafetyIT؛ شاهد اجراشده موجود |
+| [FR-015](validation/final.md) | AS-19, AS-20 | ConcurrentMutationIT, MixedReviewRaceIT, DeleteRaceIT؛ شاهد اجراشده موجود |
+| [FR-016](validation/final.md) | AS-03, AS-06, AS-10 | AuditAtomicityIT, DraftFlowIT, CorrectionSafetyIT؛ شاهد اجراشده موجود |
+| [FR-017](validation/final.md) | AS-10 | HistoryIT, HistoryVisibilityIT؛ شاهد اجراشده موجود |
+| [FR-018](validation/final.md) | AS-18 | PaginationIT, VisibilityMatrixIT؛ شاهد اجراشده موجود |
+| [FR-019](validation/final.md) | AS-04, AS-12, AS-17 | ApiContractIT, LogPrivacyIT, GetRequestIT؛ شاهد اجراشده موجود |
+| [FR-020](validation/final.md) | AS-21 | IdempotencyIT؛ شاهد اجراشده موجود |
+| [FR-021](validation/final.md) | AS-23 | TransitionRulesTest, RequestChangesIT, ApprovalIT؛ شاهد اجراشده موجود |
+
+AS-01 تا AS-23 همگی در جدول مستقل final.md ردیابی شده‌اند؛ FR/AS بدون شاهد خودکار شناسایی نشد. این ممیزی درصد line/branch coverage یا تمام interleavingها نیست؛ محدودیت تست اختصاصی دو ترتیب Create/RequestChanges در final.md ثبت شد. SC-006 فاقد شاهد انسانی و T061 باز است.
+
+DoD فنی: clean compile/package، ۱۶۳ تست بدون failure/error/skip، Migration واقعی، ۱۸۰ رقابت نسخه و ۲۸۰ ترتیب guard/revocation، privacy/architecture، بدون mock DB و مستندات بازبینی‌شده. DoD کلی: **باز به‌علت پذیرش انسانی SC-006**. CI فقط ساختاری بررسی شده و اجرای CI یا استقرار ادعا نمی‌شود.

@@ -1,10 +1,10 @@
 # Quickstart و راهنمای اعتبارسنجی
 
-این راهنما قرارداد اجرای **پس از Implement** است. در مرحلهٔ Plan هنوز pom.xml، Wrapper، پروفایل dev، Migration یا endpoint اجرایی وجود ندارد؛ دستورها در این مرحله اجرا نشده‌اند. Implement باید همین مسیر را عملی کند و README به آن لینک بدهد.
+این راهنما مسیر فعلی Build/Test و اجرای محلی پروژه است؛ pom.xml، Maven Wrapper، پروفایل dev، Migration و endpointها موجودند. verify و test-run در T058 تا T060 عملاً اجرا شده‌اند؛ نتیجهٔ clean verify و smoke فعلی در [گزارش نهایی](validation/final.md) ثبت شده است. پذیرش انسانی SC-006/T061 باز است.
 
 ## پیش‌نیاز
 
-JDK 21، Docker-compatible runtime فعال، curl و jq. Maven Wrapper توسط پروژه تأمین می‌شود. تست‌ها PostgreSQL 17.12 واقعی را با Testcontainers راه می‌اندازند؛ نصب DB محلی لازم نیست. دسترسی دریافت Maven artifacts و container image لازم است.
+JDK 21، Docker-compatible runtime فعال، curl و jq. Maven Wrapper با توزیع 3.9.16 توسط پروژه تأمین می‌شود؛ نسخهٔ Spring Boot در pom.xml برابر 4.0.9 است. تست‌ها PostgreSQL 17.12 واقعی را با Testcontainers راه می‌اندازند؛ نصب DB محلی لازم نیست. دسترسی دریافت Maven artifacts و container image لازم است.
 
 ## Build و تست یک‌دست
 
@@ -12,13 +12,14 @@ JDK 21، Docker-compatible runtime فعال، curl و jq. Maven Wrapper توسط
 
 ```bash
 ./mvnw verify
+./mvnw clean verify
 ```
 
-انتظار: Unit Testها، architecture testها و API/Persistence Integration Testها، از جمله Migration از DB خالی، اجرا شوند؛ skip پیش‌فرض Integration Test مجاز نیست. Surefire نتیجهٔ unit و Failsafe نتیجهٔ integration را ثبت می‌کند. CI نیز همین دستور را با JDK 21 و container runtime اجرا می‌کند.
+انتظار: Unit Testها، architecture testها و API/Persistence Integration Testها، از جمله Migration از DB خالی، اجرا شوند؛ skip پیش‌فرض Integration Test مجاز نیست. Surefire نتیجهٔ unit و Failsafe نتیجهٔ integration را ثبت می‌کند. workflow CI برای همین verify با JDK 21 و container runtime پیکربندی شده است؛ خود CI در محیط اعتبارسنجی محلی اجرا نشده است.
 
 ## اجرای محلی
 
-پروفایل dev به‌طور برنامه‌ریزی‌شده از test-run و container DB استفاده می‌کند؛ beanهای Testcontainers و provision فقط در test source set هستند و در JAR production قرار نمی‌گیرند. سه کاربر `requester`، `reviewer` و `dual` از secret محلی با hash استاندارد provision می‌شوند؛ نقش‌هایشان به‌ترتیب Requester، Reviewer و هر دو است. کاربر Reviewer دوم برای تست رقابت در fixtureهای integration ساخته می‌شود. رمز ثابت یا credential قابل‌استفاده در repo ثبت نمی‌شود.
+پروفایل dev از test-run و container DB استفاده می‌کند؛ beanهای Testcontainers و provision فقط در test source set هستند و در JAR production قرار نمی‌گیرند. سه کاربر `requester`، `reviewer` و `dual` از secret محلی با hash استاندارد provision می‌شوند؛ نقش‌هایشان به‌ترتیب Requester، Reviewer و هر دو است. کاربر Reviewer دوم برای تست رقابت در fixtureهای integration ساخته می‌شود. رمز ثابت یا credential قابل‌استفاده در repo ثبت نمی‌شود.
 
 در یک terminal:
 

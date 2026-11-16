@@ -1,0 +1,22 @@
+AUTOMATED TECHNICAL QUICKSTART SMOKE; NOT HUMAN SC-006
+Command: ./mvnw spring-boot:test-run -Dspring-boot.run.profiles=dev
+getCsrf: 200 PASS
+listRequests authentication requester: 200 PASS
+listRequests authentication reviewer: 200 PASS
+listRequests authentication dual: 200 PASS
+createDraft: 201 PASS
+editRequest Draft: 200 PASS
+submitRequest Draft: 200 PASS
+requestChanges: 200 PASS
+listHistory explanation visible to owner: 200 PASS
+editRequest ChangesRequested: 200 PASS
+submitRequest ChangesRequested: 200 PASS
+approveRequest: 200 PASS
+getRequest owner: 200 PASS
+getRequest reviewer after Approved: 404 PASS
+listHistory complete cycle: 200 PASS
+create scratch Draft: 201 PASS
+deleteDraft: 204 PASS
+getRequest deleted Draft: 404 PASS
+All ten operationIds exercised; UTC/history/CSRF/no-store assertions PASS
+Own development process stopped; termination exit=143

@@ -4,11 +4,13 @@
 
 ## وضعیت فعلی
 
-Setup، Foundation و US1 تا US5 تا checkpoint T057 اعتبارسنجی شده‌اند؛ [گزارش US4 و خروجی واقعی verify](specs/001-change-request-management/validation/us4.md) و [تکمیل US5](specs/001-change-request-management/validation/us5.md) شامل شواهد دسترسی، pagination، حذف، رقابت و لغو نقش‌اند. List/Detail/History مطابق نقش جاری و مالکیت، حذف Draft با نسخهٔ مورد انتظار، و چرخهٔ کامل ثبت/بررسی/اصلاح موجودند. در فاز Polish، bootstrap محلی T058 و workflow مربوط به T060 اضافه شده‌اند؛ T059 با تفسیر تأییدشدهٔ A-007 برای query حاضر ولی خالی تکمیل شده و verify نهایی با ۱۶۳ تست سبز است؛ پذیرش انسانی و T061 تا T064 هنوز انجام نشده‌اند. شواهد این محدوده در [گزارش T058 تا T060](specs/001-change-request-management/validation/polish-t058-t060.md) ثبت شده است.
+**کامل از نظر فنی، پذیرش انسانی SC-006 باز**. Setup، Foundation، US1 تا US5 و T058 تا T060 و T062 تا T064 اعتبارسنجی شده‌اند. [گزارش نهایی و ممیزی FR/AS/DoD](specs/001-change-request-management/validation/final.md) نتیجهٔ واقعی `./mvnw clean verify` با ۱۶۳ تست موفق، تعریف محدود محیط تمیز، شمار raceها و محدودیت شواهد را ثبت می‌کند. T061 تا آزمون واقعی ۵ کارمند با Reviewer و ثبت موفقیت ۵ از ۵ باز می‌ماند؛ پروژه به‌طور کامل پذیرفته‌شده اعلام نمی‌شود.
+
+شواهد قبلی [US4](specs/001-change-request-management/validation/us4.md)، [US5](specs/001-change-request-management/validation/us5.md) و [T058 تا T060 و تفسیر A-007](specs/001-change-request-management/validation/polish-t058-t060.md) نیز محفوظ‌اند. CI فقط بررسی ساختاری شده و اجرا نشده است.
 
 ## Stack
 
-Java 21، Spring Boot 4.0.9 و Maven؛ Modular Monolith با Package-by-Feature. طبق Plan و ADRها: PostgreSQL 17.12، Flyway، Spring Data JPA، HTTP Basic روی HTTPS با CSRF protection و تست‌های PostgreSQL واقعی با Testcontainers. جزئیات فنی در Plan و ADRها نگه‌داری می‌شوند. نسخه‌های دقیق با [Plan](specs/001-change-request-management/plan.md)، [ADR-001](docs/decisions/001-runtime-and-storage.md) و مستندات رسمی [Spring Boot 4.0.9](https://docs.spring.io/spring-boot/4.0/system-requirements.html) و [PostgreSQL 17.12](https://www.postgresql.org/docs/release/17.12/) تطبیق داده شده‌اند.
+Java 21، Spring Boot 4.0.9 طبق pom.xml و Maven 3.9.16 طبق Maven Wrapper؛ Modular Monolith با Package-by-Feature. طبق Plan و ADRها: PostgreSQL 17.12، Flyway، Spring Data JPA، HTTP Basic روی HTTPS با CSRF protection و تست‌های PostgreSQL واقعی با Testcontainers. جزئیات فنی در Plan و ADRها نگه‌داری می‌شوند. نسخه‌های دقیق با [Plan](specs/001-change-request-management/plan.md)، [ADR-001](docs/decisions/001-runtime-and-storage.md) و مستندات رسمی [Spring Boot 4.0.9](https://docs.spring.io/spring-boot/4.0/system-requirements.html) و [PostgreSQL 17.12](https://www.postgresql.org/docs/release/17.12/) تطبیق داده شده‌اند.
 
 فعال‌بودن CSRF در [ADR-002](docs/decisions/002-identity-and-live-authorization.md) و Plan صریح است؛ دلیل ثبت‌شده در [Research، بخش هویت و نقش جاری](specs/001-change-request-management/research.md#۳-هویت-و-نقش-جاری)، نیاز کلاینت مرورگریِ HTTP Basic به حفاظت CSRF است. ADR-002 این دلیل را جداگانه توضیح نداده است.
 
@@ -54,6 +56,7 @@ specs/
 
 ```bash
 ./mvnw verify
+./mvnw clean verify
 ```
 
 برای اجرای محلی، Docker را فعال کنید و secret را فقط در محیط همان shell قرار دهید. فرمان زیر با Spring Boot 4.0.9 عملاً بررسی شده است:
@@ -70,7 +73,7 @@ export CHANGEFLOW_DEV_PASSWORD
 unset CHANGEFLOW_DEV_PASSWORD
 ```
 
-راهنمای [Quickstart کامل](specs/001-change-request-management/quickstart.md) شامل CSRF، نمونهٔ درخواست‌ها و سناریوهای اعتبارسنجی است. `verify` تست‌های موجود را با Surefire و Failsafe اجرا می‌کند. وضعیت واقعی اجرا در گزارش validation آمده است. تست‌ها، نه race درخواست (از جمله سه race حذف) را هرکدام ۲۰ بار و دو ترتیب لغو/guard را برای edit، Submit، Approve، GET، List، History و Delete هرکدام ۲۰ بار با PostgreSQL واقعی و barrier اجرا می‌کنند؛ sleep و retry تصمیم استفاده نمی‌شود. خطای قطع منبع، حتی با شکست rollback، 503 عمومی و خطای غیرمنتظره 500 است.
+راهنمای [Quickstart کامل](specs/001-change-request-management/quickstart.md) شامل CSRF، نمونهٔ درخواست‌ها و سناریوهای اعتبارسنجی است. `verify` تست‌های موجود را با Surefire و Failsafe اجرا می‌کند. وضعیت واقعی اجرا در گزارش validation آمده است. تست‌ها، ۹ سناریوی race درخواست (از جمله سه race حذف) را هرکدام ۲۰ بار و دو ترتیب لغو/guard را برای edit، Submit، Approve، GET، List، History و Delete هرکدام ۲۰ بار با PostgreSQL واقعی و barrier اجرا می‌کنند؛ sleep و retry تصمیم استفاده نمی‌شود. خطای قطع منبع، حتی با شکست rollback، 503 عمومی و خطای غیرمنتظره 500 است.
 
 ## CI
 
