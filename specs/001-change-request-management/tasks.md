@@ -172,11 +172,11 @@
 
 **Purpose**: تطابق نهایی، اجرای Quickstart، پذیرش و مستندات؛ به تمام داستان‌ها وابسته است.
 
-- [ ] T058 dev test-run با PostgreSQL واقعی و provision فقط در test source set را در `src/test/java/com/changeflow/DevApplication.java` و `DevServicesConfiguration.java` و `src/test/resources/application-dev.yaml` بسازید؛ کاربران requester/reviewer/dual، secret از CHANGEFLOW_DEV_PASSWORD، فقدان secret خطای startup، hash استاندارد، فقط loopback؛ عدم بسته‌بندی bootstrap در JAR را تست کنید (FR-002، FR-014، FR-019؛ quickstart.md).
+- [X] T058 dev test-run با PostgreSQL واقعی و provision فقط در test source set را در `src/test/java/com/changeflow/DevApplication.java` و `DevServicesConfiguration.java` و `src/test/resources/application-dev.yaml` بسازید؛ کاربران requester/reviewer/dual، secret از CHANGEFLOW_DEV_PASSWORD، فقدان secret خطای startup، hash استاندارد، فقط loopback؛ عدم بسته‌بندی bootstrap در JAR را تست کنید (FR-002، FR-014، FR-019؛ quickstart.md).
 
-- [ ] T059 تطابق هر ۱۰ operationId با OpenAPI، status/body/header/content-type، unknown fields، 400/401/403/404/409/422 و CSRF/no-store را در `src/test/java/com/changeflow/changerequest/api/ApiContractIT.java` بررسی کنید؛ 500/503 faultها و رفتار prior Approve actor بدون GET access پوشش داده شوند (FR-001 تا FR-021؛ contracts/openapi.yaml).
+- [X] T059 تطابق هر ۱۰ operationId با OpenAPI، status/body/header/content-type، unknown fields، 400/401/403/404/409/422 و CSRF/no-store را در `src/test/java/com/changeflow/changerequest/api/ApiContractIT.java` بررسی کنید؛ 500/503 faultها و رفتار prior Approve actor بدون GET access پوشش داده شوند (FR-001 تا FR-021؛ contracts/openapi.yaml).
 
-- [ ] T060 [P] CI با JDK 21 و container runtime و همان `./mvnw verify` را در `.github/workflows/ci.yml` و Quickstart عملی را در `README.md` ثبت کنید؛ گزارش Surefire/Failsafe نگه‌داری شود، هیچ secret یا محیط انتشار اضافه نشود؛ بررسی workflow و smoke دستور README (SC-001، SC-003؛ Constitution بخش ۸).
+- [X] T060 [P] CI با JDK 21 و container runtime و همان `./mvnw verify` را در `.github/workflows/ci.yml` و Quickstart عملی را در `README.md` ثبت کنید؛ گزارش Surefire/Failsafe نگه‌داری شود، هیچ secret یا محیط انتشار اضافه نشود؛ بررسی workflow و smoke دستور README (SC-001، SC-003؛ Constitution بخش ۸).
 
 - [ ] T061 ۵ کارمند و Reviewer دیگر باید SC-006 را با چرخهٔ واقعی انجام دهند و دلیل بازگشت را شناسایی کنند؛ نتیجهٔ واقعی و تعداد موفقیت در `specs/001-change-request-management/validation/acceptance.md` ثبت شود؛ تا حضور افراد و اجرای واقعی، این Task باز بماند و نتیجه جعل یا با تست خودکار جایگزین نشود (SC-006، AS-11، AS-13).
 

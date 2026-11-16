@@ -1,0 +1,6 @@
+# Test-runtime only. The executable production JAR contains neither this file nor dev provision.
+server:
+  address: 127.0.0.1
+  ssl:
+    enabled: false
+    bundle: null

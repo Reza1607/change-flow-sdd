@@ -19,6 +19,9 @@ class SetupPackagingIT {
             assertNotNull(jar.getEntry("BOOT-INF/classes/com/changeflow/ChangeFlowApplication.class"));
             assertNotNull(jar.getEntry("BOOT-INF/classes/application.yaml"));
             assertNull(jar.getEntry("BOOT-INF/classes/com/changeflow/SetupPackagingIT.class"));
+            assertNull(jar.getEntry("BOOT-INF/classes/com/changeflow/DevApplication.class"));
+            assertNull(jar.getEntry("BOOT-INF/classes/com/changeflow/DevServicesConfiguration.class"));
+            assertNull(jar.getEntry("BOOT-INF/classes/application-dev.yaml"));
         }
     }
 }

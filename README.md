@@ -4,7 +4,7 @@
 
 ## وضعیت فعلی
 
-Setup، Foundation و US1 تا US5 تا checkpoint T057 اعتبارسنجی شده‌اند؛ [گزارش US4 و خروجی واقعی verify](specs/001-change-request-management/validation/us4.md) و [تکمیل US5](specs/001-change-request-management/validation/us5.md) شامل شواهد دسترسی، pagination، حذف، رقابت و لغو نقش‌اند. List/Detail/History مطابق نقش جاری و مالکیت، حذف Draft با نسخهٔ مورد انتظار، و چرخهٔ کامل ثبت/بررسی/اصلاح موجودند. کار در T057 متوقف شده و Task بعدی T058 است؛ فاز Polish و پذیرش انسانی هنوز انجام نشده‌اند.
+Setup، Foundation و US1 تا US5 تا checkpoint T057 اعتبارسنجی شده‌اند؛ [گزارش US4 و خروجی واقعی verify](specs/001-change-request-management/validation/us4.md) و [تکمیل US5](specs/001-change-request-management/validation/us5.md) شامل شواهد دسترسی، pagination، حذف، رقابت و لغو نقش‌اند. List/Detail/History مطابق نقش جاری و مالکیت، حذف Draft با نسخهٔ مورد انتظار، و چرخهٔ کامل ثبت/بررسی/اصلاح موجودند. در فاز Polish، bootstrap محلی T058 و workflow مربوط به T060 اضافه شده‌اند؛ T059 با تفسیر تأییدشدهٔ A-007 برای query حاضر ولی خالی تکمیل شده و verify نهایی با ۱۶۳ تست سبز است؛ پذیرش انسانی و T061 تا T064 هنوز انجام نشده‌اند. شواهد این محدوده در [گزارش T058 تا T060](specs/001-change-request-management/validation/polish-t058-t060.md) ثبت شده است.
 
 ## Stack
 
@@ -44,7 +44,7 @@ specs/
     └── contracts/
 ```
 
-[AGENTS.md](AGENTS.md) راهنمای Coding Agent و [Assumptions](docs/assumptions.md) محل شش فرض قابل بازبینی است.
+[AGENTS.md](AGENTS.md) راهنمای Coding Agent و [Assumptions](docs/assumptions.md) محل هفت فرض قابل بازبینی است.
 
 ## Build و Quickstart
 
@@ -56,7 +56,7 @@ specs/
 ./mvnw verify
 ```
 
-اجرای محلی dev زیر هنوز آماده نیست: bootstrap و کاربران محلی در T058 (Polish) ساخته می‌شوند. این دستور قرارداد اجرای آینده طبق Quickstart است:
+برای اجرای محلی، Docker را فعال کنید و secret را فقط در محیط همان shell قرار دهید. فرمان زیر با Spring Boot 4.0.9 عملاً بررسی شده است:
 
 ```bash
 read -rsp 'Local development password: ' CHANGEFLOW_DEV_PASSWORD
@@ -64,13 +64,17 @@ export CHANGEFLOW_DEV_PASSWORD
 ./mvnw spring-boot:test-run -Dspring-boot.run.profiles=dev
 ```
 
-پس از T058، پروفایل dev روی `127.0.0.1:8080` اجرا خواهد شد و secret خالی را نخواهد پذیرفت. کاربران محلی `requester`، `reviewer` و `dual` به‌ترتیب نقش Requester، Reviewer و هر دو را دارند. این provision طبق Plan فقط در test source set خواهد بود؛ در محیط مشترک HTTPS لازم است. پس از توقف اجرا:
+پروفایل dev روی `127.0.0.1:8080` اجرا می‌شود؛ secret غایب/خالی یا bind غیر loopback باعث شکست startup می‌شود. کاربران محلی `requester`، `reviewer` و `dual` به‌ترتیب نقش Requester، Reviewer و هر دو را دارند. PostgreSQL موقت با Testcontainers و این provision فقط در test source set هستند و در JAR تولید بسته‌بندی نمی‌شوند؛ داده‌های این اجرای موقت ماندگار نیستند. در محیط مشترک HTTPS لازم است. پس از توقف اجرا:
 
 ```bash
 unset CHANGEFLOW_DEV_PASSWORD
 ```
 
-راهنمای [Quickstart کامل](specs/001-change-request-management/quickstart.md) شامل CSRF، نمونهٔ درخواست‌ها و سناریوهای اعتبارسنجی است. `verify` تست‌های موجود را با Surefire و Failsafe اجرا می‌کند؛ تست‌های داستان‌های آینده هنوز پیاده نشده‌اند. وضعیت واقعی اجرا در گزارش validation آمده است. تست‌ها، نه race درخواست (از جمله سه race حذف) را هرکدام ۲۰ بار و دو ترتیب لغو/guard را برای edit، Submit، Approve، GET، List، History و Delete هرکدام ۲۰ بار با PostgreSQL واقعی و barrier اجرا می‌کنند؛ sleep و retry تصمیم استفاده نمی‌شود. خطای قطع منبع، حتی با شکست rollback، 503 عمومی و خطای غیرمنتظره 500 است.
+راهنمای [Quickstart کامل](specs/001-change-request-management/quickstart.md) شامل CSRF، نمونهٔ درخواست‌ها و سناریوهای اعتبارسنجی است. `verify` تست‌های موجود را با Surefire و Failsafe اجرا می‌کند. وضعیت واقعی اجرا در گزارش validation آمده است. تست‌ها، نه race درخواست (از جمله سه race حذف) را هرکدام ۲۰ بار و دو ترتیب لغو/guard را برای edit، Submit، Approve، GET، List، History و Delete هرکدام ۲۰ بار با PostgreSQL واقعی و barrier اجرا می‌کنند؛ sleep و retry تصمیم استفاده نمی‌شود. خطای قطع منبع، حتی با شکست rollback، 503 عمومی و خطای غیرمنتظره 500 است.
+
+## CI
+
+[Workflow](.github/workflows/ci.yml) روی push و pull request، JDK 21 و Docker را بررسی کرده و همان `./mvnw verify` را اجرا می‌کند. گزارش‌های `target/surefire-reports/` و `target/failsafe-reports/` حتی هنگام شکست به‌عنوان artifact نگه‌داری می‌شوند. secret یا محیط انتشار تعریف نشده است. ساختار workflow محلی بررسی شده؛ اجرای CI در این محیط انجام نشده و موفقیت آن تأیید نشده است.
 
 ## نقش‌ها و گردش وضعیت
 
@@ -88,7 +92,7 @@ Draft --Submit--> PendingReview --Approve--> Approved
                  ChangesRequested --Submit--> PendingReview
 ```
 
-هر گذار دیگر نامعتبر است. Self-Approval و RequestChanges روی درخواست خود ممنوع‌اند؛ Approved تغییرناپذیر است. عنوان، شرح و دلیل در Draft می‌توانند ناقص باشند ولی هنگام Submit باید غیرخالی باشند. تعارض همزمانی خطای صریح دارد و هر گذار موفق با Audit اتمیک ثبت می‌شود.
+هر گذار دیگر نامعتبر است. Self-Approval و RequestChanges روی درخواست خود ممنوع‌اند؛ Approved تغییرناپذیر است. عنوان، شرح و دلیل در Draft می‌توانند ناقص باشند ولی هنگام Submit باید غیرخالی باشند. تعارض همزمانی خطای صریح دارد و هر گذار موفق با Audit اتمیک ثبت شده است.
 
 Requester فقط درخواست‌های خود را می‌بیند؛ Reviewer به اتکای نقش بررسی فقط PendingReviewها را می‌بیند و Draft دیگران نامرئی است. دسترسی‌های کاربر دو‌نقشه تجمیع می‌شوند؛ جزئیات در Spec و API semantics آمده است.
 

@@ -30,4 +30,20 @@ class PaginationIT extends DraftApiSupport {
             problem(send(request(BASE+"?"+query,owner)),400,"BAD_REQUEST");
         problem(send(request(BASE,null)),401,"UNAUTHENTICATED");
     }
+    @Test void presentEmptyQueriesFailWhileOmittedPaginationKeepsDefaults() throws Exception {
+        var owner=account(true,false);var id=seed(owner,"Draft","t","d","r",0);var before=snapshot(id);
+        // expectedVersion has no default: both absent and empty remain BAD_REQUEST.
+        problem(mutate(owner,"DELETE",BASE+"/"+id+"?expectedVersion=",null),400,"BAD_REQUEST");
+        problem(mutate(owner,"DELETE",BASE+"/"+id,null),400,"BAD_REQUEST");
+        var checks=new ArrayList<org.junit.jupiter.api.function.Executable>();
+        for(var path:List.of(BASE,BASE+"/"+id+"/history")) {
+            var defaults=send(request(path,owner));assertEquals(200,defaults.statusCode());
+            assertEquals(0,json(defaults.body()).get("page").asInt());assertEquals(20,json(defaults.body()).get("size").asInt());
+            for(var query:List.of("page=","size=","status="))
+                checks.add(()->problem(send(request(path+"?"+query,owner)),400,"BAD_REQUEST"));
+        }
+        assertAll(checks);
+        assertEquals(before,snapshot(id));assertEquals(0,auditCount(id));
+    }
+
 }
