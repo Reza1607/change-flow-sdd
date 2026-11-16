@@ -10,6 +10,8 @@ FR-014 لغو نقش را برای عملیات بعدی و عملیات آغا�
 
 HTTP Basic روی HTTPS و PasswordEncoder استاندارد؛ بدون session احراز هویت. CurrentActor پشت Port از Security Context شناسه می‌گیرد؛ CurrentAccess نقش را از DB می‌خواند. CSRF فعال با CookieCsrfTokenRepository، endpoint احرازشدهٔ token و header/cookie برای mutation؛ CORS بسته. هیچ secret ثابت در Migration یا Git نیست.
 
+طبق [Research، بخش ۳](../../specs/001-change-request-management/research.md#۳-هویت-و-نقش-جاری)، CSRF برای کلاینت مرورگریِ HTTP Basic نیز باید در نظر گرفته شود و stateless بودن Basic دلیل غیرفعال‌کردن آن نیست. در نتیجه، کلاینت پیش از mutation باید توکن را از GET احرازشدهٔ `/api/v1/csrf` بگیرد و cookie و header متناظر را ارسال کند.
+
 یک ردیف پایدار برای مجوز هر actor باقی می‌ماند. پیش از پذیرش نهایی mutation، تراکنش guard اشتراکی این ردیف را می‌گیرد و enabled/role را مجدداً می‌خواند؛ تا commit نگه می‌دارد. تغییر نقش با guard انحصاری و expected accessVersion، در تراکنش مستقل commit می‌شود. خواندن fresh تحت READ COMMITTED انجام می‌شود و از first-level cache قبلی استفاده نمی‌کند. تمام writerهای نقش، از جمله ابزار provision عملیاتی، همین قرارداد را رعایت می‌کنند. شکست منبع مجوز fail closed است.
 
 اثر لغو = commit موفق آن؛ اگر لغو زودتر commit شود عملیات جاری رد می‌شود؛ اگر عملیات guard را زودتر بگیرد، قبل از commit لغو تمام می‌شود. این الگو لغو از لحظهٔ اعلام intent یا بازپس‌گیری اثر commitشده را تضمین نمی‌کند. A-006 این مرز را صریح ثبت می‌کند؛ برداشت متفاوت محصول نیازمند بازبینی همین فرض است.
