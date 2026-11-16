@@ -60,7 +60,7 @@ unset CHANGEFLOW_DEV_PASSWORD
 
 DevApplication، DevServicesConfiguration و application-dev.yaml فقط در test source set هستند؛ PostgreSQL موقت و سه کاربر requester/reviewer/dual از همین مسیر تأمین می‌شوند و bootstrap در JAR تولید نیست. secret غایب/خالی و bind غیر loopback خطای startup می‌دهند؛ Agent MUST NOT رمز ثابت بسازد. HTTP فقط توسعهٔ loopback و TLS برای محیط مشترک الزامی است.
 
-CSRF مطابق ADR-002 فعال است: GET احرازشدهٔ `/api/v1/csrf` و cookie/header متناظر برای mutation؛ Basic stateless جایگزین CSRF نیست. دلیل مرورگری در Research ثبت شده، ولی ADR-002 دلیل CSRF را جداگانه توضیح نداده است؛ Agent MUST NOT برای آن دلیل تازه‌ای بسازد. A-007 تفسیر تأییدشدهٔ ورودی query خالی است، نه حکم صریح قرارداد.
+CSRF مطابق ADR-002 فعال است: GET احرازشدهٔ `/api/v1/csrf` و cookie/header متناظر برای mutation؛ Basic stateless جایگزین CSRF نیست. دلیل مرورگری و نیاز کلاینت به دریافت توکن پیش از mutation در ADR-002 با لینک به Research بخش ۳ ثبت شده است؛ Agent MUST NOT برای آن دلیل تازه‌ای بسازد. A-007 تفسیر تأییدشدهٔ ورودی query خالی است، نه حکم صریح قرارداد.
 
 ## ساختار Package و وابستگی
 

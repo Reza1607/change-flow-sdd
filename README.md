@@ -12,7 +12,7 @@
 
 Java 21، Spring Boot 4.0.9 طبق pom.xml و Maven 3.9.16 طبق Maven Wrapper؛ Modular Monolith با Package-by-Feature. طبق Plan و ADRها: PostgreSQL 17.12، Flyway، Spring Data JPA، HTTP Basic روی HTTPS با CSRF protection و تست‌های PostgreSQL واقعی با Testcontainers. جزئیات فنی در Plan و ADRها نگه‌داری می‌شوند. نسخه‌های دقیق با [Plan](specs/001-change-request-management/plan.md)، [ADR-001](docs/decisions/001-runtime-and-storage.md) و مستندات رسمی [Spring Boot 4.0.9](https://docs.spring.io/spring-boot/4.0/system-requirements.html) و [PostgreSQL 17.12](https://www.postgresql.org/docs/release/17.12/) تطبیق داده شده‌اند.
 
-فعال‌بودن CSRF در [ADR-002](docs/decisions/002-identity-and-live-authorization.md) و Plan صریح است؛ دلیل ثبت‌شده در [Research، بخش هویت و نقش جاری](specs/001-change-request-management/research.md#۳-هویت-و-نقش-جاری)، نیاز کلاینت مرورگریِ HTTP Basic به حفاظت CSRF است. ADR-002 این دلیل را جداگانه توضیح نداده است.
+فعال‌بودن CSRF در [ADR-002](docs/decisions/002-identity-and-live-authorization.md) و Plan صریح است؛ دلیل ثبت‌شده در [Research، بخش هویت و نقش جاری](specs/001-change-request-management/research.md#۳-هویت-و-نقش-جاری)، نیاز کلاینت مرورگریِ HTTP Basic به حفاظت CSRF است. ADR-002 اکنون همین دلیل و نیاز کلاینت به دریافت توکن پیش از mutation را با لینک به Research بخش ۳ ثبت کرده است.
 
 ## ساختار مخزن
 
