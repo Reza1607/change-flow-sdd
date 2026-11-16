@@ -1,4 +1,26 @@
-# US5 — وضعیت تا checkpoint US3، T049
+# US5 — checkpoint تکمیل پس از T056/T057
+
+**US5 پس از موفقیت T046 و T056 و verify کامل تکمیل شد.** این اعلام مربوط به US5 است؛ completion کل پروژه یا پذیرش انسانی SC-006 نیست.
+
+در فاز ۷، T056 شامل Edit/Delete، Submit/Delete و Delete/Delete، هرکدام ۲۰ بار با PostgreSQL واقعی و دو connection/EntityManager مستقل و barrier بدون sleep اجرا شد. هر بار یک پذیرش و یک 409 CONCURRENT_MODIFICATION، بدون retry/reload و بدون Audit یتیم. برندهٔ Delete ردیف را با Audit صفر حذف می‌کند؛ برندهٔ Edit داده/نسخه را بدون Audit و برندهٔ Submit نسخه/وضعیت و تنها Audit خود را حفظ می‌کند. actor دو عملیات همان مالک مجاز است؛ تعداد Audit به command برنده وابسته است و عملیات بازنده اثر تازه ندارد. adapter نسخه‌دار موجود نیاز به تغییر نداشت.
+
+در verify نهایی همهٔ ۹ گروه race هرکدام ۲۰ بار (۱۸۰ رقابت) و ۱۴ گروه ترتیب guard/لغو هرکدام ۲۰ بار (۲۸۰ سناریو) سبزند. T035–T041 و T046 نیز همراه T056 دوباره در Full Suite اجرا شدند. List/History/Delete در دو ترتیب commit لغو نقش به تست‌های قبلی افزوده شدند؛ نقش دیگر کاربر dual حفظ می‌شود. موارد 200 با List خالی و 404 والد نامرئی مطابق A-001/A-006 هستند و مجوز از مالکیت یا cache گرفته نمی‌شود.
+
+[checkpoint US4، فرمان‌ها، فایل‌ها و محدودیت‌ها](us4.md)، [خروجی واقعی کامل verify](us4-verify.txt) و [شواهد TDD](us4-tdd.txt). Exit code اجرای کامل **0**؛ خروجی واقعی منتخب:
+
+```text
+[INFO] Tests run: 64, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 89, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  07:57 min
+[INFO] Finished at: 2026-11-15T18:10:55+03:30
+```
+
+گزارش‌های زیر تاریخی‌اند؛ عبارت‌های «تا تکمیل T056 Done نیست» وضعیت checkpointهای T049/T041 را توصیف می‌کنند و با نتیجهٔ نهایی بالا جایگزین شده‌اند. T058 به بعد اجرا نشده‌اند.
+
+---
+
+## گزارش تاریخی US5 تا checkpoint US3، T049
 
 **US5 تا تکمیل T056 Done نیست**.
 

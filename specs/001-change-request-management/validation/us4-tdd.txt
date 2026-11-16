@@ -1,0 +1,134 @@
+US4 observed test output excerpts; these are selected lines, not full raw logs.
+All commands and exit codes are recorded in us4.md; unfiltered final verify is us4-verify.txt.
+
+T050/T051 initial behavioral red
+/tmp/changeflow-us4-initial-red.txt
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.901 s -- in com.changeflow.architecture.ArchitectureTest
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.453 s -- in com.changeflow.changerequest.domain.DraftRulesTest
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.140 s -- in com.changeflow.changerequest.domain.TransitionRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.244 s -- in com.changeflow.web.SetupConfigurationTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.045 s -- in com.changeflow.web.NoStoreFilterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in com.changeflow.web.CsrfCookieTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in com.changeflow.web.ProblemMappingTest
+[INFO] Tests run: 64, Failures: 0, Errors: 0, Skipped: 0
+[ERROR] Tests run: 5, Failures: 5, Errors: 0, Skipped: 0, Time elapsed: 24.27 s <<< FAILURE! -- in com.changeflow.changerequest.api.DeleteDraftIT
+org.opentest4j.AssertionFailedError: expected: <404> but was: <405>
+org.opentest4j.AssertionFailedError: expected: <400> but was: <405>
+org.opentest4j.AssertionFailedError: expected: <204> but was: <405>
+org.opentest4j.AssertionFailedError: expected: <409> but was: <405>
+org.opentest4j.AssertionFailedError: expected: <404> but was: <405>
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 8.447 s <<< FAILURE! -- in com.changeflow.changerequest.api.VisibilityMatrixIT
+org.opentest4j.AssertionFailedError: expected: <200> but was: <405>
+[ERROR] Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 6.891 s <<< FAILURE! -- in com.changeflow.changerequest.api.PaginationIT
+org.opentest4j.AssertionFailedError: expected: <200> but was: <405>
+org.opentest4j.AssertionFailedError: expected: <200> but was: <405>
+[ERROR]   DeleteDraftIT.everyNonDraftStateIncludingApprovedStaysUnchangedWithItsAudit:46->DraftApiSupport.problem:29 expected: <409> but was: <405>
+[ERROR]   DeleteDraftIT.hiddenAndAbsentDeleteReturnIdenticalProblemAndCsrfIsRequired:52->DraftApiSupport.problem:29 expected: <404> but was: <405>
+[ERROR]   DeleteDraftIT.missingStaleMalformedAndNegativeVersionCannotDelete:25->DraftApiSupport.problem:29 expected: <400> but was: <405>
+[ERROR]   DeleteDraftIT.ownerDeletesDraftWithoutAuditAndRepeatedDeleteAndReadAreNotFound:16 expected: <204> but was: <405>
+[ERROR]   DeleteDraftIT.visibilityRoleAndOwnershipPrecedeStateAndVersion:32->DraftApiSupport.problem:29 expected: <404> but was: <405>
+[ERROR]   PaginationIT.emptyPagesAndInvalidQueriesHaveContractResponses:28 expected: <200> but was: <405>
+[ERROR]   PaginationIT.paginationCountsOnlyVisibleRowsAndUsesDatabaseUuidOrderAcrossPages:16 expected: <200> but was: <405>
+[ERROR]   VisibilityMatrixIT.fullRoleOwnerStateMatrixAndFreshDualRoleRevocationAndGrant:21->check:40 expected: <200> but was: <405>
+[ERROR] Tests run: 8, Failures: 8, Errors: 0, Skipped: 0
+[INFO] BUILD FAILURE
+[INFO] Total time:  01:00 min
+[INFO] Finished at: 2026-11-15T17:51:11+03:30
+
+T052/T053 list/detail/history green
+/tmp/changeflow-us4-list-green.txt
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.728 s -- in com.changeflow.architecture.ArchitectureTest
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.240 s -- in com.changeflow.changerequest.domain.DraftRulesTest
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.086 s -- in com.changeflow.changerequest.domain.TransitionRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.149 s -- in com.changeflow.web.SetupConfigurationTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.037 s -- in com.changeflow.web.NoStoreFilterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in com.changeflow.web.CsrfCookieTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.changeflow.web.ProblemMappingTest
+[INFO] Tests run: 64, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 32.72 s -- in com.changeflow.changerequest.api.VisibilityMatrixIT
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.308 s -- in com.changeflow.changerequest.api.HistoryVisibilityIT
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.939 s -- in com.changeflow.changerequest.api.GetRequestIT
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.663 s -- in com.changeflow.changerequest.api.PaginationIT
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  01:10 min
+[INFO] Finished at: 2026-11-15T17:53:42+03:30
+
+T050/T054 delete and regressions green
+/tmp/changeflow-us4-delete-green.txt
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.780 s -- in com.changeflow.architecture.ArchitectureTest
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.206 s -- in com.changeflow.changerequest.domain.DraftRulesTest
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.087 s -- in com.changeflow.changerequest.domain.TransitionRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.153 s -- in com.changeflow.web.SetupConfigurationTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.040 s -- in com.changeflow.web.NoStoreFilterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in com.changeflow.web.CsrfCookieTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.changeflow.web.ProblemMappingTest
+[INFO] Tests run: 64, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 22.50 s -- in com.changeflow.changerequest.api.DeleteDraftIT
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 20.10 s -- in com.changeflow.changerequest.api.DraftFlowIT
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.56 s -- in com.changeflow.changerequest.api.ApprovalIT
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.156 s -- in com.changeflow.changerequest.infrastructure.RequestStoreIT
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  01:13 min
+[INFO] Finished at: 2026-11-15T17:55:38+03:30
+
+T055 in-flight and matrix green
+/tmp/changeflow-us4-revocation-green.txt
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.886 s -- in com.changeflow.architecture.ArchitectureTest
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.192 s -- in com.changeflow.changerequest.domain.DraftRulesTest
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.092 s -- in com.changeflow.changerequest.domain.TransitionRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.144 s -- in com.changeflow.web.SetupConfigurationTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.040 s -- in com.changeflow.web.NoStoreFilterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in com.changeflow.web.CsrfCookieTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.changeflow.web.ProblemMappingTest
+[INFO] Tests run: 64, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 32.90 s -- in com.changeflow.changerequest.api.VisibilityMatrixIT
+US5 guard-first operation=Edit iteration=20 writerObservedCommittedOperation=true
+US5 guard-first operation=Submit iteration=20 writerObservedCommittedOperation=true
+US5 guard-first operation=Approve iteration=20 writerObservedCommittedOperation=true
+US5 guard-first operation=Read iteration=20 writerObservedCommittedOperation=true
+US4 revocation-first operation=List iteration=20 effect=0 audit=0
+US4 revocation-first operation=History iteration=20 effect=0 audit=0
+US4 revocation-first operation=Delete iteration=20 effect=0 audit=0
+US4 guard-first operation=List iteration=20 writerObservedCommittedOperation=true
+US4 guard-first operation=History iteration=20 writerObservedCommittedOperation=true
+US4 guard-first operation=Delete iteration=20 writerObservedCommittedOperation=true
+US5 revocation-first operation=Edit iteration=20 effect=0 audit=0
+US5 revocation-first operation=Submit iteration=20 effect=0 audit=0
+US5 revocation-first operation=Approve iteration=20 effect=0 audit=0
+US5 revocation-first operation=Read iteration=20 effect=0 audit=0
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 177.8 s -- in com.changeflow.identity.InFlightRevocationIT
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  03:38 min
+[INFO] Finished at: 2026-11-15T18:00:13+03:30
+
+T056 delete and previous races green
+/tmp/changeflow-us4-races-green.txt
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.832 s -- in com.changeflow.architecture.ArchitectureTest
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.212 s -- in com.changeflow.changerequest.domain.DraftRulesTest
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.093 s -- in com.changeflow.changerequest.domain.TransitionRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.143 s -- in com.changeflow.web.SetupConfigurationTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.037 s -- in com.changeflow.web.NoStoreFilterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in com.changeflow.web.CsrfCookieTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.changeflow.web.ProblemMappingTest
+[INFO] Tests run: 64, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 21.26 s -- in com.changeflow.changerequest.api.DeleteDraftIT
+US3 race=RequestChangesRequestChanges iteration=20 accepted=1 conflict=1 audit=1 loserAudit=0 reads=2
+US3 race=ApproveRequestChanges iteration=20 accepted=1 conflict=1 audit=1 loserAudit=0 reads=2
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.41 s -- in com.changeflow.changerequest.infrastructure.MixedReviewRaceIT
+US4 race=EditDelete iteration=20 accepted=1 conflict=1 deleted=true audit=0 orphanAudit=0 reads=2
+US4 race=SubmitDelete iteration=20 accepted=1 conflict=1 deleted=true audit=0 orphanAudit=0 reads=2
+US4 race=DeleteDelete iteration=20 accepted=1 conflict=1 deleted=true audit=0 orphanAudit=0 reads=2
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 31.58 s -- in com.changeflow.changerequest.infrastructure.DeleteRaceIT
+US5 race=EditEdit iteration=20 accepted=1 conflict=1 reads=2 audit=0
+US5 race=EditSubmit iteration=20 accepted=1 conflict=1 reads=2 audit=1
+US5 race=ApproveApprove iteration=20 accepted=1 conflict=1 reads=2 audit=1
+US5 race=EqualEditEqualEdit iteration=20 accepted=1 conflict=1 reads=2 audit=0
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 24.01 s -- in com.changeflow.changerequest.infrastructure.ConcurrentMutationIT
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  01:42 min
+[INFO] Finished at: 2026-11-15T18:02:12+03:30
+

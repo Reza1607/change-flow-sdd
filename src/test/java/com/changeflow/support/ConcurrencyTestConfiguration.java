@@ -98,7 +98,10 @@ public class ConcurrencyTestConfiguration {
             controls.writerPid=jdbc.queryForObject("select pg_backend_pid()",Integer.class);
             super.change(id,version,enabled,requester,reviewer);
             var gate=controls.guard;
-            if(gate!=null && gate.actor.equals(id)) controls.writerObservedRow=jdbc.queryForMap("select * from change_request where id=?",gate.requestId);
+            if(gate!=null && gate.actor.equals(id)) {
+                var rows=jdbc.queryForList("select * from change_request where id=?",gate.requestId);
+                controls.writerObservedRow=rows.isEmpty()?null:rows.getFirst();
+            }
         }
     }
     @Bean @Primary AccessProvisioner observedWriter(JdbcTemplate jdbc,Controls controls,EntityManager em) {return new ObservedWriter(jdbc,controls,em);}

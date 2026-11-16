@@ -4,6 +4,8 @@ import com.changeflow.changerequest.domain.ChangeRequest;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.validation.constraints.*;
 import java.util.UUID;
+import java.util.List;
+import com.changeflow.changerequest.application.RequestReader;
 
 public final class ChangeRequestDtos {
     private ChangeRequestDtos() {}
@@ -16,6 +18,11 @@ public final class ChangeRequestDtos {
             if(explanation!=null && !explanation.isString()) throw new IllegalArgumentException("explanation must be a string when present");
         }
         public String explanationText() {return explanation==null?null:explanation.asString();}
+    }
+    public record Page(List<Response> items,int page,int size,long totalElements,long totalPages) {
+        static Page from(RequestReader.Page result) {
+            return new Page(result.items().stream().map(Response::from).toList(),result.page(),result.size(),result.totalElements(),result.totalPages());
+        }
     }
     public record Response(UUID id,String title,String description,String reason,UUID requesterId,String status,long version) {
         public static Response from(ChangeRequest request) {

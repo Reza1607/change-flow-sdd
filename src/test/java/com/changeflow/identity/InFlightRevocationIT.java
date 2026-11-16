@@ -79,6 +79,76 @@ class InFlightRevocationIT extends DraftApiSupport {
             }
         }
     }
+    enum US4Operation { List, History, Delete }
+    private HttpResponse<String> performUS4(US4Operation op,Account actor,UUID id) throws Exception {
+        return switch(op) {
+            case List->send(request(BASE+"?status=Draft",actor));
+            case History->send(request(BASE+"/"+id+"/history",actor));
+            case Delete->mutate(actor,"DELETE",BASE+"/"+id+"?expectedVersion=0",null);
+        };
+    }
+    @ParameterizedTest @EnumSource(US4Operation.class)
+    void us4CommittedRevocationRejectsInFlightAccessBeforeGuard(US4Operation op) throws Exception {
+        var other=account(true,false);
+        try(var pool=Executors.newFixedThreadPool(2)) {
+            for(int iteration=1;iteration<=20;iteration++) {
+                var actor=account(true,true);var id=seed(actor,"Draft","t","d","r",0);var before=snapshot(id);
+                var gate=new GuardGate(new ActorId(actor.id()),id,false);controls.guard=gate;
+                HttpResponse<String> response;
+                try {
+                    var operation=pool.submit(()->performUS4(op,actor,id));gate.awaitEntered();assertTrue(gate.cachedAccount);
+                    provisioner.change(new ActorId(actor.id()),0,true,false,true);
+                    assertNotEquals(gate.pid,controls.writerPid);assertNotSame(gate.session,controls.writerSession);
+                    gate.release.countDown();response=operation.get(30,TimeUnit.SECONDS);
+                } finally {gate.release.countDown();controls.guard=null;}
+                if(op==US4Operation.List) assertEmptyDraftList(response);
+                else problem(response,op==US4Operation.Delete?403:404,op==US4Operation.Delete?"FORBIDDEN":"NOT_FOUND");
+                assertEquals(before,snapshot(id));assertEquals(0,auditCount(id));
+                assertUS4LaterAccessAndRemainingReviewer(op,actor,other,id);
+                System.out.println("US4 revocation-first operation="+op+" iteration="+iteration+" effect=0 audit=0");
+            }
+        }
+    }
+    @ParameterizedTest @EnumSource(US4Operation.class)
+    void us4EarlierGuardOrdersReadsAndDeleteBeforeRoleCommit(US4Operation op) throws Exception {
+        var other=account(true,false);
+        try(var pool=Executors.newFixedThreadPool(2)) {
+            for(int iteration=1;iteration<=20;iteration++) {
+                var actor=account(true,true);var id=seed(actor,"Draft","t","d","r",0);var before=snapshot(id);
+                var gate=new GuardGate(new ActorId(actor.id()),id,true);controls.guard=gate;controls.writerPid=0;controls.writerObservedRow=null;
+                try {
+                    var operation=pool.submit(()->performUS4(op,actor,id));gate.awaitEntered();assertTrue(gate.cachedAccount);
+                    var revocation=pool.submit(()->provisioner.change(new ActorId(actor.id()),0,true,false,true));
+                    awaitWriterLock(gate.pid);assertNotSame(gate.session,controls.writerSession);assertFalse(revocation.isDone());
+                    gate.release.countDown();var response=operation.get(30,TimeUnit.SECONDS);
+                    assertEquals(op==US4Operation.Delete?204:200,response.statusCode());
+                    if(op==US4Operation.List) {
+                        assertEquals(1,json(response.body()).get("totalElements").asLong());
+                        assertEquals(id.toString(),json(response.body()).get("items").get(0).get("id").asString());
+                    }
+                    revocation.get(30,TimeUnit.SECONDS);
+                } finally {gate.release.countDown();controls.guard=null;}
+                if(op==US4Operation.Delete) {
+                    assertTrue(jdbc.queryForList("select * from change_request where id=?",id).isEmpty());assertNull(controls.writerObservedRow);
+                } else {assertEquals(before,snapshot(id));assertEquals(before,controls.writerObservedRow);}
+                assertEquals(0,auditCount(id));assertUS4LaterAccessAndRemainingReviewer(op,actor,other,id);
+                System.out.println("US4 guard-first operation="+op+" iteration="+iteration+" writerObservedCommittedOperation=true");
+            }
+        }
+    }
+    private void assertEmptyDraftList(HttpResponse<String> response) {
+        assertEquals(200,response.statusCode());assertEquals(0,json(response.body()).get("items").size());
+        assertEquals(0,json(response.body()).get("totalElements").asLong());assertEquals(0,json(response.body()).get("totalPages").asLong());
+    }
+    private void assertUS4LaterAccessAndRemainingReviewer(US4Operation op,Account actor,Account other,UUID id) throws Exception {
+        var rows=jdbc.queryForList("select * from change_request where id=?",id);var audit=jdbc.queryForList("select * from status_history where request_id=?",id);
+        var later=performUS4(op,actor,id);
+        if(op==US4Operation.List) assertEmptyDraftList(later);else problem(later,404,"NOT_FOUND");
+        assertEquals(rows,jdbc.queryForList("select * from change_request where id=?",id));assertEquals(audit,jdbc.queryForList("select * from status_history where request_id=?",id));
+        assertEquals(1L,jdbc.queryForObject("select access_version from identity_account where actor_id=?",Long.class,actor.id()));
+        var pending=seed(other,"PendingReview","t","d","r",0);
+        assertEquals(200,mutate(actor,"POST",BASE+"/"+pending+"/approve","{\"expectedVersion\":0}").statusCode());
+    }
     private void awaitWriterLock(int guardPid) {
         long deadline=System.nanoTime()+TimeUnit.SECONDS.toNanos(15);boolean blocked=false;
         while(System.nanoTime()<deadline) {

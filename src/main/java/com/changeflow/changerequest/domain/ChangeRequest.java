@@ -13,6 +13,11 @@ public record ChangeRequest(UUID id,String title,String description,String reaso
         if(status!=ChangeRequestStatus.Draft && status!=ChangeRequestStatus.ChangesRequested)
             throw new DraftRuleViolation(DraftRuleViolation.Code.INVALID_TRANSITION,List.of());
     }
+    public void requireDeletableBy(UUID actor) {
+        requireOwner(actor);
+        if(status!=ChangeRequestStatus.Draft)
+            throw new DraftRuleViolation(DraftRuleViolation.Code.INVALID_TRANSITION,List.of());
+    }
     public void requireSubmittableBy(UUID actor) {requireEditableBy(actor);}
     public ChangeRequest edit(UUID actor,String title,String description,String reason) {
         requireEditableBy(actor);

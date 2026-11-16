@@ -1,6 +1,8 @@
 package com.changeflow.changerequest.api;
 
 import com.changeflow.changerequest.application.DraftRequestService;
+import com.changeflow.changerequest.application.DeleteDraftService;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.UUID;
@@ -11,7 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/change-requests")
 public class DraftRequestController {
     private final DraftRequestService drafts;
-    public DraftRequestController(DraftRequestService drafts) {this.drafts=drafts;}
+    private final DeleteDraftService deletes;
+    public DraftRequestController(DraftRequestService drafts,DeleteDraftService deletes) {this.drafts=drafts;this.deletes=deletes;}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id,@RequestParam @PositiveOrZero long expectedVersion) {
+        deletes.delete(id,expectedVersion);return ResponseEntity.noContent().build();
+    }
     @PostMapping
     public ResponseEntity<ChangeRequestDtos.Response> create(@Valid @RequestBody ChangeRequestDtos.DraftInput input) {
         var response=ChangeRequestDtos.Response.from(drafts.create(input.title(),input.description(),input.reason()));

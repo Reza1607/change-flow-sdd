@@ -4,7 +4,7 @@
 
 ## وضعیت فعلی
 
-Setup، Foundation، US1، US2، هستهٔ US5 و US3 تا T049 اعتبارسنجی شده‌اند؛ [گزارش US3 و خروجی واقعی verify](specs/001-change-request-management/validation/us3.md) و [وضعیت US5](specs/001-change-request-management/validation/us5.md) شامل شواهد TDD، رقابت و کنترل‌های منفی‌اند. ایجاد Draft، ویرایش، Submit، Approve، RequestChanges، ارسال مجدد و تاریخچهٔ صفحه‌بندی‌شده با مجوز جاری، کنترل نسخه و Audit اتمیک موجودند. کار در T049 متوقف شده و Task بعدی T050 است. **US5 تا تکمیل T056 Done نیست**؛ فهرست عمومی و حذف Draft هنوز پیاده نشده‌اند.
+Setup، Foundation و US1 تا US5 تا checkpoint T057 اعتبارسنجی شده‌اند؛ [گزارش US4 و خروجی واقعی verify](specs/001-change-request-management/validation/us4.md) و [تکمیل US5](specs/001-change-request-management/validation/us5.md) شامل شواهد دسترسی، pagination، حذف، رقابت و لغو نقش‌اند. List/Detail/History مطابق نقش جاری و مالکیت، حذف Draft با نسخهٔ مورد انتظار، و چرخهٔ کامل ثبت/بررسی/اصلاح موجودند. کار در T057 متوقف شده و Task بعدی T058 است؛ فاز Polish و پذیرش انسانی هنوز انجام نشده‌اند.
 
 ## Stack
 
@@ -25,8 +25,8 @@ src/main/java/com/changeflow/
 ├── web/                      # Security، CSRF، Problem و no-store
 ├── identity/                 # ports، value types و adapterهای DB/guard
 └── changerequest/
-    ├── api/                  # DTOهای مستقل و POST/PUT/Submit/Approve/RequestChanges/GET تکی و History
-    ├── application/          # use caseهای Draft/Submit/Approve/RequestChanges/GET/History، executor و سیاست تکرار
+    ├── api/                  # DTOهای مستقل و Create/Edit/Delete/Submit/Approve/RequestChanges/List/Detail/History
+    ├── application/          # use caseهای Draft/Submit/Approve/RequestChanges/Get/List/History/Delete، executor و سیاست تکرار
     ├── domain/               # مدل مستقل، قواعد Draft و policy چهار گذار
     └── infrastructure/       # Entity/نگاشت، CAS، Audit/رسید محدود، reader و لاگ
 src/main/resources/           # application.yaml، logback و Migration V1
@@ -70,11 +70,11 @@ export CHANGEFLOW_DEV_PASSWORD
 unset CHANGEFLOW_DEV_PASSWORD
 ```
 
-راهنمای [Quickstart کامل](specs/001-change-request-management/quickstart.md) شامل CSRF، نمونهٔ درخواست‌ها و سناریوهای اعتبارسنجی است. `verify` تست‌های موجود را با Surefire و Failsafe اجرا می‌کند؛ تست‌های داستان‌های آینده هنوز پیاده نشده‌اند. وضعیت واقعی اجرا در گزارش validation آمده است. تست‌ها، شش race درخواست (از جمله mixed review و double RequestChanges) را هرکدام ۲۰ بار و دو ترتیب لغو/guard را برای edit، Submit، Approve و GET هرکدام ۲۰ بار با PostgreSQL واقعی و barrier اجرا می‌کنند؛ sleep و retry تصمیم استفاده نمی‌شود. خطای قطع منبع، حتی با شکست rollback، 503 عمومی و خطای غیرمنتظره 500 است.
+راهنمای [Quickstart کامل](specs/001-change-request-management/quickstart.md) شامل CSRF، نمونهٔ درخواست‌ها و سناریوهای اعتبارسنجی است. `verify` تست‌های موجود را با Surefire و Failsafe اجرا می‌کند؛ تست‌های داستان‌های آینده هنوز پیاده نشده‌اند. وضعیت واقعی اجرا در گزارش validation آمده است. تست‌ها، نه race درخواست (از جمله سه race حذف) را هرکدام ۲۰ بار و دو ترتیب لغو/guard را برای edit، Submit، Approve، GET، List، History و Delete هرکدام ۲۰ بار با PostgreSQL واقعی و barrier اجرا می‌کنند؛ sleep و retry تصمیم استفاده نمی‌شود. خطای قطع منبع، حتی با شکست rollback، 503 عمومی و خطای غیرمنتظره 500 است.
 
 ## نقش‌ها و گردش وضعیت
 
-اکنون `POST /api/v1/change-requests`، `PUT /api/v1/change-requests/{id}`، `POST /api/v1/change-requests/{id}/submit`، `POST /api/v1/change-requests/{id}/approve` ، `POST /api/v1/change-requests/{id}/request-changes`، `GET /api/v1/change-requests/{id}` و `GET /api/v1/change-requests/{id}/history` پیاده شده‌اند. پاسخ موفق Approve رسید همان عملیات است و برای Reviewer دسترسی GET پس از Approved ایجاد نمی‌کند؛ تکرار همان عامل موفق با نقش جاری، 409 عمومی بدون DTO و دیگر Reviewerهای فاقد visibility، 404 می‌گیرند. تکرار RequestChanges توسط Reviewer قبلیِ فاقد دید 404 و توسط مالک دو‌نقشه 403 است؛ رسید ویژهٔ Approve به RequestChanges تعمیم داده نمی‌شود. تاریخچه فقط با visibility والد و شامل توضیح بازگشت است؛ endpoint ویرایش/حذف تاریخچه وجود ندارد. فهرست عمومی و حذف Draft هنوز endpoint ندارند.
+اکنون `GET /api/v1/change-requests`، `DELETE /api/v1/change-requests/{id}?expectedVersion=...`، `POST /api/v1/change-requests`، `PUT /api/v1/change-requests/{id}`، `POST /api/v1/change-requests/{id}/submit`، `POST /api/v1/change-requests/{id}/approve` ، `POST /api/v1/change-requests/{id}/request-changes`، `GET /api/v1/change-requests/{id}` و `GET /api/v1/change-requests/{id}/history` پیاده شده‌اند. پاسخ موفق Approve رسید همان عملیات است و برای Reviewer دسترسی GET پس از Approved ایجاد نمی‌کند؛ تکرار همان عامل موفق با نقش جاری، 409 عمومی بدون DTO و دیگر Reviewerهای فاقد visibility، 404 می‌گیرند. تکرار RequestChanges توسط Reviewer قبلیِ فاقد دید 404 و توسط مالک دو‌نقشه 403 است؛ رسید ویژهٔ Approve به RequestChanges تعمیم داده نمی‌شود. تاریخچه فقط با visibility والد و شامل توضیح بازگشت است؛ endpoint ویرایش/حذف تاریخچه وجود ندارد. فهرست قبل از count و pagination در DB محدود می‌شود؛ page از صفر، size پیش‌فرض 20 و سقف 100 و ترتیب id صعودی است. حذف فقط Draft مالک دارای Requester جاری، بدون Audit و با پاسخ 204 است؛ نسخهٔ قدیمی 409 و حذف مجدد 404 می‌دهد.
 
 - **Requester:** ایجاد Draft، ویرایش درخواست خود فقط در Draft و ChangesRequested، Submit و حذف فقط Draft خود.
 - **Reviewer:** مشاهدهٔ PendingReviewها و Approve یا RequestChanges روی درخواست شخص دیگر؛ توضیح RequestChanges اجباری است.

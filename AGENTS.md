@@ -40,7 +40,7 @@ Agent MUST به‌ترتیب بخواند؛ Constitution مرجع الزام‌�
 ## Build و Test
 
 مرجع دستورها: [Quickstart](specs/001-change-request-management/quickstart.md).
-`pom.xml` و Maven Wrapper از Setup موجودند. Build و تست با JDK 21 و Docker-compatible runtime فعال اجرا می‌شوند؛ نتیجهٔ checkpoint T049 باید از [گزارش واقعی validation](specs/001-change-request-management/validation/us3.md) خوانده شود:
+`pom.xml` و Maven Wrapper از Setup موجودند. Build و تست با JDK 21 و Docker-compatible runtime فعال اجرا می‌شوند؛ نتیجهٔ checkpoint T057 باید از [گزارش واقعی validation](specs/001-change-request-management/validation/us4.md) خوانده شود:
 
 ```bash
 ./mvnw verify
@@ -50,15 +50,15 @@ Agent MUST به‌ترتیب بخواند؛ Constitution مرجع الزام‌�
 
 ## ساختار Package و وابستگی
 
-پس از Foundation، US1، US2، هستهٔ US5 و US3، ساختار واقعی زیر `com.changeflow` است؛ checkpoint T049 در [گزارش US3](specs/001-change-request-management/validation/us3.md) و [وضعیت US5](specs/001-change-request-management/validation/us5.md) ثبت شده و Task بعدی T050 است؛ فاز بعدی آغاز نشده است. **US5 تا تکمیل T056 Done نیست**:
+پس از Foundation و US1 تا US5، ساختار واقعی زیر `com.changeflow` است؛ checkpoint T057 در [گزارش US4](specs/001-change-request-management/validation/us4.md) و [تکمیل US5](specs/001-change-request-management/validation/us5.md) ثبت شده و Task بعدی T058 است؛ فاز Polish آغاز نشده است:
 
-- `changerequest.api`: Records ورودی/خروجی مستقل و Controllerهای POST/PUT/Submit/Approve/RequestChanges/GET تکی و History صفحه‌بندی‌شده، بدون قواعد کسب‌وکار.
-- `changerequest.application`: Portهای ذخیره/Audit/خواندن، DraftRequestService، ReviewRequestService، RequestMutationExecutor، RepeatedTransitionPolicy ، GetRequestService، HistoryQueryService و HistoryReader؛ هویت جاری و مرز تراکنش/guard.
-- `changerequest.domain`: مدل مستقل `ChangeRequest` با قواعد ایجاد/ویرایش، TransitionPolicy چهار گذار، خطاهای دامنه، `StatusHistoryEntry` و enum چهار وضعیت.
-- `changerequest.infrastructure`: Entity/نگاشت دستی، JpaChangeRequestStore با CAS و @Version، JpaAuditTrail، StatusHistoryRepository با query محدود boolean رسید Approve، JpaRequestReader و JpaHistoryReader با predicate مجوز و join تاریخچه به والد و RequestLoggingFilter.
+- `changerequest.api`: Records ورودی/خروجی مستقل و Controllerهای Create/Edit/Delete/Submit/Approve/RequestChanges/List/Detail/History؛ ورودی Query نسخهٔ حذف و DTO صفحه مستقل، بدون قواعد کسب‌وکار.
+- `changerequest.application`: Portهای ذخیره/Audit/خواندن، DraftRequestService، ReviewRequestService، RequestMutationExecutor، RepeatedTransitionPolicy ، GetRequestService، HistoryQueryService، HistoryReader، ListRequestsService و DeleteDraftService؛ هویت جاری و مرز تراکنش/guard.
+- `changerequest.domain`: مدل مستقل `ChangeRequest` با قواعد ایجاد/ویرایش و حذف فقط Draft مالک، TransitionPolicy چهار گذار، خطاهای دامنه، `StatusHistoryEntry` و enum چهار وضعیت.
+- `changerequest.infrastructure`: Entity/نگاشت دستی، JpaChangeRequestStore با CAS و @Version برای update/delete، JpaAuditTrail، StatusHistoryRepository با query محدود boolean رسید Approve، JpaRequestReader و JpaHistoryReader با predicate مجوز و join تاریخچه به والد و RequestLoggingFilter.
 - `identity.application / domain / infrastructure`: Portهای هویت و دسترسی، value typeها، حساب JPA، adapter هویت، guard تازه و writer داخلی نسخه‌دار نقش؛ بدون endpoint مدیریت کاربران.
 - `web`: Security wiring، CSRF endpoint، JSON سخت‌گیرانه، mapper مشترک 503/500 و no-store؛ TransactionConfiguration با JpaTransactionManager برای حفظ علت اصلی هنگام شکست rollback؛ composition root و Clock UTC در ChangeFlowApplication.
-- RequestChanges از executor اتمیک مشترک استفاده می‌کند؛ ویرایش ChangesRequested/ارسال مجدد، تاریخچهٔ append-only و mixed/double RequestChanges race اکنون تست شده‌اند. Reviewer قبلیِ فاقد visibility برای تکرار RequestChanges، 404 می‌گیرد و استثنای رسید Approve تعمیم داده نمی‌شود. delete race تا T056 باز است؛ endpoint فهرست/حذف هنوز ساخته نشده است.
+- RequestChanges از executor اتمیک مشترک استفاده می‌کند؛ ویرایش ChangesRequested/ارسال مجدد، تاریخچهٔ append-only و mixed/double RequestChanges race اکنون تست شده‌اند. Reviewer قبلیِ فاقد visibility برای تکرار RequestChanges، 404 می‌گیرد و استثنای رسید Approve تعمیم داده نمی‌شود. List و حذف Draft و سه delete race تکمیل شده‌اند؛ query count/items یک predicate visibility/status دارند و guard تازه تا تهیهٔ نتیجه/commit حفظ می‌شود. US5 پس از T046/T056 و verify کامل تکمیل شده است.
 - resources: Migration V1، Hibernate validate و لاگ JSON؛ API/Persistence tests از PostgreSQL واقعی 17.12 استفاده می‌کنند.
 
 - وابستگی MUST به داخل باشد؛ domain MUST مستقل از Spring/JPA باشد؛ تزریق MUST با Constructor Injection انجام شود.
